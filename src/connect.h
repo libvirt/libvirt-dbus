@@ -12,9 +12,9 @@ struct virtDBusConnect {
     GDBusConnection *bus;
     const gchar *uri;
     const gchar *connectPath;
-    gchar *nodeDevPath;
     gchar *domainPath;
     gchar *networkPath;
+    gchar *nodeDevPath;
     gchar *nwfilterPath;
     gchar *secretPath;
     gchar *storagePoolPath;
