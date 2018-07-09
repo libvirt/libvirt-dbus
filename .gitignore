@@ -7,10 +7,10 @@
 *Makefile
 *Makefile.in
 *~
-.deps
-.libs
-.pytest_cache
-__pycache__
+.deps/
+.libs/
+.pytest_cache/
+__pycache__/
 vgcore.*
 
 /AUTHORS
