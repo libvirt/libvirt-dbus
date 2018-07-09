@@ -22,7 +22,7 @@ class TestConnect(libvirttest.BaseTestClass):
 
         self.main_loop()
 
-    def test_comnect_domain_define_xml(self):
+    def test_connect_domain_define_xml(self):
         def domain_defined(path, event, detail):
             if event != libvirttest.DomainEvent.DEFINED:
                 return
@@ -84,7 +84,7 @@ class TestConnect(libvirttest.BaseTestClass):
         sysinfo = self.connect.GetSysinfo(0)
         assert isinstance(sysinfo, dbus.String)
 
-    def test_list_networks(self):
+    def test_connect_list_networks(self):
         networks = self.connect.ListNetworks(0)
         assert isinstance(networks, dbus.Array)
         assert len(networks) == 1
