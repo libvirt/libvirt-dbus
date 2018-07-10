@@ -9,6 +9,7 @@
 *~
 .deps
 .libs
+.pytest_cache
 __pycache__
 vgcore.*
 
