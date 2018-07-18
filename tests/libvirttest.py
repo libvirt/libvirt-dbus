@@ -33,7 +33,7 @@ class BaseTestClass():
         """Start libvirt-dbus for each test function
         """
         os.environ['LIBVIRT_DEBUG'] = '3'
-        self.libvirt_dbus = subprocess.Popen([exe])
+        self.libvirt_dbus = subprocess.Popen([exe, '--session'])
         self.bus = dbus.SessionBus()
 
         for i in range(10):
