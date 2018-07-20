@@ -278,6 +278,41 @@ virtDBusUtilVirDomainListFree(virDomainPtr *domains)
     g_free(domains);
 }
 
+virInterfacePtr
+virtDBusUtilVirInterfaceFromBusPath(virConnectPtr connection,
+                                    const gchar *path,
+                                    const gchar *interfacePath)
+{
+    g_autofree gchar *macstr = NULL;
+    gsize prefixLen = strlen(interfacePath) + 1;
+
+    macstr = virtDBusUtilDecodeStr(path + prefixLen);
+
+    return virInterfaceLookupByMACString(connection, macstr);
+}
+
+gchar *
+virtDBusUtilBusPathForVirInterface(virInterfacePtr interface,
+                                   const gchar *interfacePath)
+{
+    const gchar *macstr = NULL;
+    g_autofree const gchar *encodedMACStr = NULL;
+
+    macstr = virInterfaceGetMACString(interface);
+    encodedMACStr = virtDBusUtilEncodeStr(macstr);
+
+    return g_strdup_printf("%s/%s", interfacePath, encodedMACStr);
+}
+
+void
+virtDBusUtilVirInterfaceListFree(virInterfacePtr *interfaces)
+{
+    for (gint i = 0; interfaces[i] != NULL; i++)
+        virInterfaceFree(interfaces[i]);
+
+    g_free(interfaces);
+}
+
 virNetworkPtr
 virtDBusUtilVirNetworkFromBusPath(virConnectPtr connection,
                                   const gchar *path,

@@ -41,6 +41,8 @@ libvirt_dbus_SOURCES = \
 	events.h \
 	gdbus.c \
 	gdbus.h \
+	interface.c \
+	interface.h \
 	main.c \
 	network.c \
 	network.h \

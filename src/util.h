@@ -65,6 +65,21 @@ G_DEFINE_AUTOPTR_CLEANUP_FUNC(virDomainPtr, virtDBusUtilVirDomainListFree);
 
 G_DEFINE_AUTOPTR_CLEANUP_FUNC(virDomainStatsRecordPtr, virDomainStatsRecordListFree);
 
+virInterfacePtr
+virtDBusUtilVirInterfaceFromBusPath(virConnectPtr connection,
+                                    const gchar *path,
+                                    const gchar *interfacePath);
+
+gchar *
+virtDBusUtilBusPathForVirInterface(virInterfacePtr interface,
+                                   const gchar *interfacePath);
+
+void
+virtDBusUtilVirInterfaceListFree(virInterfacePtr *interfaces);
+
+G_DEFINE_AUTOPTR_CLEANUP_FUNC(virInterface, virInterfaceFree);
+G_DEFINE_AUTOPTR_CLEANUP_FUNC(virInterfacePtr, virtDBusUtilVirInterfaceListFree);
+
 virNetworkPtr
 virtDBusUtilVirNetworkFromBusPath(virConnectPtr connection,
                                   const gchar *path,

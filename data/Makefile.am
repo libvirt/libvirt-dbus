@@ -33,6 +33,7 @@ polkit_DATA = \
 interfaces_files = \
 	org.libvirt.Connect.xml \
 	org.libvirt.Domain.xml \
+	org.libvirt.Interface.xml \
 	org.libvirt.Network.xml \
 	org.libvirt.NodeDevice.xml \
 	org.libvirt.NWFilter.xml \
