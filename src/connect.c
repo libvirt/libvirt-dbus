@@ -757,6 +757,27 @@ virtDBusConnectInterfaceChangeBegin(GVariant *inArgs,
 }
 
 static void
+virtDBusConnectInterfaceChangeCommit(GVariant *inArgs,
+                                     GUnixFDList *inFDs G_GNUC_UNUSED,
+                                     const gchar *objectPath G_GNUC_UNUSED,
+                                     gpointer userData,
+                                     GVariant **outArgs G_GNUC_UNUSED,
+                                     GUnixFDList **outFDs G_GNUC_UNUSED,
+                                     GError **error)
+{
+    virtDBusConnect *connect = userData;
+    guint flags;
+
+    g_variant_get(inArgs, "(u)", &flags);
+
+    if (!virtDBusConnectOpen(connect, error))
+        return;
+
+    if (virInterfaceChangeCommit(connect->connection, flags) < 0)
+        virtDBusUtilSetLastVirtError(error);
+}
+
+static void
 virtDBusConnectInterfaceDefineXML(GVariant *inArgs,
                                   GUnixFDList *inFDs G_GNUC_UNUSED,
                                   const gchar *objectPath G_GNUC_UNUSED,
@@ -1854,6 +1875,7 @@ static virtDBusGDBusMethodTable virtDBusConnectMethodTable[] = {
     { "GetDomainCapabilities", virtDBusConnectGetDomainCapabilities },
     { "GetSysinfo", virtDBusConnectGetSysinfo },
     { "InterfaceChangeBegin", virtDBusConnectInterfaceChangeBegin },
+    { "InterfaceChangeCommit", virtDBusConnectInterfaceChangeCommit },
     { "InterfaceDefineXML", virtDBusConnectInterfaceDefineXML },
     { "ListDomains", virtDBusConnectListDomains },
     { "ListInterfaces", virtDBusConnectListInterfaces },

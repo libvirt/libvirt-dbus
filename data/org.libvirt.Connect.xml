@@ -153,6 +153,11 @@
         value="See https://libvirt.org/html/libvirt-libvirt-interface.html#virInterfaceChangeBegin"/>
       <arg name="flags" type="u" direction="in"/>
     </method>
+    <method name="InterfaceChangeCommit">
+      <annotation name="org.gtk.GDBus.DocString"
+        value="See https://libvirt.org/html/libvirt-libvirt-interface.html#virInterfaceChangeCommit"/>
+      <arg name="flags" type="u" direction="in"/>
+    </method>
     <method name="InterfaceDefineXML">
       <annotation name="org.gtk.GDBus.DocString"
         value="See https://libvirt.org/html/libvirt-libvirt-interface.html#virInterfaceDefineXML"/>
