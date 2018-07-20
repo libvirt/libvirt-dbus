@@ -70,6 +70,26 @@ virtDBusInterfaceDestroy(GVariant *inArgs,
         virtDBusUtilSetLastVirtError(error);
 }
 
+static void
+virtDBusInterfaceUndefine(GVariant *inArgs G_GNUC_UNUSED,
+                          GUnixFDList *inFDs G_GNUC_UNUSED,
+                          const gchar *objectPath,
+                          gpointer userData,
+                          GVariant **outArgs G_GNUC_UNUSED,
+                          GUnixFDList **outFDs G_GNUC_UNUSED,
+                          GError **error)
+{
+    virtDBusConnect *connect = userData;
+    g_autoptr(virInterface) interface = NULL;
+
+    interface = virtDBusInterfaceGetVirInterface(connect, objectPath, error);
+    if (!interface)
+        return;
+
+    if (virInterfaceUndefine(interface) < 0)
+        virtDBusUtilSetLastVirtError(error);
+}
+
 static virtDBusGDBusPropertyTable virtDBusInterfacePropertyTable[] = {
     { 0 }
 };
@@ -77,6 +97,7 @@ static virtDBusGDBusPropertyTable virtDBusInterfacePropertyTable[] = {
 static virtDBusGDBusMethodTable virtDBusInterfaceMethodTable[] = {
     { "Create", virtDBusInterfaceCreate },
     { "Destroy", virtDBusInterfaceDestroy },
+    { "Undefine", virtDBusInterfaceUndefine },
     { 0 }
 };
 

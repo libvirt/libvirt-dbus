@@ -13,5 +13,9 @@
         value="See https://libvirt.org/html/libvirt-libvirt-interface.html#virInterfaceDestroy"/>
       <arg name="flags" type="u" direction="in"/>
     </method>
+    <method name="Undefine">
+      <annotation name="org.gtk.GDBus.DocString"
+        value="See https://libvirt.org/html/libvirt-libvirt-interface.html#virInterfaceUndefine"/>
+    </method>
   </interface>
 </node>
