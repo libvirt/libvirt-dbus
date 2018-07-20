@@ -3,6 +3,11 @@
 
 <node name="/org/libvirt/interface">
   <interface name="org.libvirt.Interface">
+    <annotation name="org.freedesktop.DBus.Property.EmitsChangedSignal" value="false"/>
+    <property name="Active" type="b" access="read">
+      <annotation name="org.gtk.GDBus.DocString"
+        value="See https://libvirt.org/html/libvirt-libvirt-interface.html#virInterfaceIsActive"/>
+    </property>
     <property name="MAC" type="s" access="read">
       <annotation name="org.gtk.GDBus.DocString"
         value="See https://libvirt.org/html/libvirt-libvirt-interface.html#virInterfaceGetMACString"/>

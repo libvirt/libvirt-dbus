@@ -33,6 +33,7 @@ class TestInterface(libvirttest.BaseTestClass):
         props = obj.GetAll('org.libvirt.Interface', dbus_interface=dbus.PROPERTIES_IFACE)
         assert isinstance(props['Name'], dbus.String)
         assert isinstance(props['MAC'], dbus.String)
+        assert isinstance(props['Active'], dbus.Boolean)
 
 if __name__ == '__main__':
     libvirttest.run()
