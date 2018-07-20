@@ -21,5 +21,9 @@ class TestInterface(libvirttest.BaseTestClass):
         interface_obj.Destroy(0)
         interface_obj.Create(0)
 
+    def test_interface_get_xml_description(self):
+        _,interface_obj = self.interface_create()
+        assert isinstance(interface_obj.GetXMLDesc(0), dbus.String)
+
 if __name__ == '__main__':
     libvirttest.run()
