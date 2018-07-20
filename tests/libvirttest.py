@@ -71,6 +71,18 @@ class BaseTestClass():
         if self.timeout:
             raise TimeoutError()
 
+    def interface_create(self):
+        """ Fixture to define dummy interface on the test driver
+
+        This fixture should be used in the setup of every test manipulating
+        with interfaces.
+        """
+        path = self.connect.InterfaceDefineXML(xmldata.minimal_interface_xml, 0)
+        obj = self.bus.get_object('org.libvirt', path)
+        interface_obj = dbus.Interface(obj, 'org.libvirt.Interface')
+        interface_obj.Create(0)
+        return path, interface_obj
+
     @pytest.fixture
     def node_device_create(self):
         """ Fixture to create dummy node device on the test driver

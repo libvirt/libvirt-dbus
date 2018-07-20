@@ -11,6 +11,7 @@ test_helpers = \
 test_programs = \
 	test_connect.py \
 	test_domain.py \
+	test_interface.py \
 	test_network.py \
 	test_nodedev.py \
 	test_storage.py \
