@@ -802,6 +802,43 @@ virtDBusConnectListDomains(GVariant *inArgs,
 }
 
 static void
+virtDBusConnectListInterfaces(GVariant *inArgs,
+                              GUnixFDList *inFDs G_GNUC_UNUSED,
+                              const gchar *objectPath G_GNUC_UNUSED,
+                              gpointer userData,
+                              GVariant **outArgs,
+                              GUnixFDList **outFDs G_GNUC_UNUSED,
+                              GError **error)
+{
+    virtDBusConnect *connect = userData;
+    g_autoptr(virInterfacePtr) interfaces = NULL;
+    guint flags;
+    GVariantBuilder builder;
+    GVariant *ginterfaces;
+
+    g_variant_get(inArgs, "(u)", &flags);
+
+    if (!virtDBusConnectOpen(connect, error))
+        return;
+
+    if (virConnectListAllInterfaces(connect->connection, &interfaces, flags) < 0)
+        return virtDBusUtilSetLastVirtError(error);
+
+    g_variant_builder_init(&builder, G_VARIANT_TYPE("ao"));
+
+    for (gint i = 0; interfaces[i]; i++) {
+        g_autofree gchar *path = NULL;
+        path = virtDBusUtilBusPathForVirInterface(interfaces[i],
+                                                  connect->interfacePath);
+
+        g_variant_builder_add(&builder, "o", path);
+    }
+
+    ginterfaces = g_variant_builder_end(&builder);
+    *outArgs = g_variant_new_tuple(&ginterfaces, 1);
+}
+
+static void
 virtDBusConnectListNetworks(GVariant *inArgs,
                             GUnixFDList *inFDs G_GNUC_UNUSED,
                             const gchar *objectPath G_GNUC_UNUSED,
@@ -1797,6 +1834,7 @@ static virtDBusGDBusMethodTable virtDBusConnectMethodTable[] = {
     { "GetSysinfo", virtDBusConnectGetSysinfo },
     { "InterfaceDefineXML", virtDBusConnectInterfaceDefineXML },
     { "ListDomains", virtDBusConnectListDomains },
+    { "ListInterfaces", virtDBusConnectListInterfaces },
     { "ListNetworks", virtDBusConnectListNetworks },
     { "ListNodeDevices", virtDBusConnectListNodeDevices },
     { "ListNWFilters", virtDBusConnectListNWFilters },

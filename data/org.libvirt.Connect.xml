@@ -161,6 +161,12 @@
       <arg name="flags" type="u" direction="in"/>
       <arg name="domains" type="ao" direction="out"/>
     </method>
+    <method name="ListInterfaces">
+      <annotation name="org.gtk.GDBus.DocString"
+        value="See https://libvirt.org/html/libvirt-libvirt-interface.html#virConnectListAllInterfaces"/>
+      <arg name="flags" type="u" direction="in"/>
+      <arg name="interfaces" type="ao" direction="out"/>
+    </method>
     <method name="ListNetworks">
       <annotation name="org.gtk.GDBus.DocString"
         value="See https://libvirt.org/html/libvirt-libvirt-network.html#virConnectListAllNetworks"/>
