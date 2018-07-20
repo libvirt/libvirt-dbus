@@ -3,5 +3,10 @@
 
 <node name="/org/libvirt/interface">
   <interface name="org.libvirt.Interface">
+    <method name="Create">
+      <annotation name="org.gtk.GDBus.DocString"
+        value="See https://libvirt.org/html/libvirt-libvirt-interface.html#virInterfaceCreate"/>
+      <arg name="flags" type="u" direction="in"/>
+    </method>
   </interface>
 </node>

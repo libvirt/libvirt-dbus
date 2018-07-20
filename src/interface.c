@@ -3,11 +3,56 @@
 
 #include <libvirt/libvirt.h>
 
+static virInterfacePtr
+virtDBusInterfaceGetVirInterface(virtDBusConnect *connect,
+                                 const gchar *objectPath,
+                                 GError **error)
+{
+    virInterfacePtr interface;
+
+    if (virtDBusConnectOpen(connect, error) < 0)
+        return NULL;
+
+    interface = virtDBusUtilVirInterfaceFromBusPath(connect->connection,
+                                                    objectPath,
+                                                    connect->interfacePath);
+    if (!interface) {
+        virtDBusUtilSetLastVirtError(error);
+        return NULL;
+    }
+
+    return interface;
+}
+
+static void
+virtDBusInterfaceCreate(GVariant *inArgs,
+                        GUnixFDList *inFDs G_GNUC_UNUSED,
+                        const gchar *objectPath,
+                        gpointer userData,
+                        GVariant **outArgs G_GNUC_UNUSED,
+                        GUnixFDList **outFDs G_GNUC_UNUSED,
+                        GError **error)
+{
+    virtDBusConnect *connect = userData;
+    g_autoptr(virInterface) interface = NULL;
+    guint flags;
+
+    g_variant_get(inArgs, "(u)", &flags);
+
+    interface = virtDBusInterfaceGetVirInterface(connect, objectPath, error);
+    if (!interface)
+        return;
+
+    if (virInterfaceCreate(interface, flags) < 0)
+        virtDBusUtilSetLastVirtError(error);
+}
+
 static virtDBusGDBusPropertyTable virtDBusInterfacePropertyTable[] = {
     { 0 }
 };
 
 static virtDBusGDBusMethodTable virtDBusInterfaceMethodTable[] = {
+    { "Create", virtDBusInterfaceCreate },
     { 0 }
 };
 
