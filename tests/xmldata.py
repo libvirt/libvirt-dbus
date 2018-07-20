@@ -12,6 +12,18 @@ minimal_domain_xml = '''
 </domain>
 '''
 
+minimal_interface_xml = '''
+<interface type='ethernet' name='test-iface'>
+  <start mode='onboot'/>
+  <mac address='11:22:33:44:55:66'/>
+  <mtu size='1492'/>
+  <protocol family='ipv4'>
+    <ip address='192.168.15.5' prefix='24'/>
+    <route gateway='192.168.15.1'/>
+  </protocol>
+</interface>
+'''
+
 minimal_network_xml = '''
 <network>
   <name>bar</name>

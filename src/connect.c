@@ -736,6 +736,35 @@ virtDBusConnectGetSysinfo(GVariant *inArgs,
 }
 
 static void
+virtDBusConnectInterfaceDefineXML(GVariant *inArgs,
+                                  GUnixFDList *inFDs G_GNUC_UNUSED,
+                                  const gchar *objectPath G_GNUC_UNUSED,
+                                  gpointer userData,
+                                  GVariant **outArgs,
+                                  GUnixFDList **outFDs G_GNUC_UNUSED,
+                                  GError **error)
+{
+    virtDBusConnect *connect = userData;
+    g_autoptr(virInterface) interface = NULL;
+    g_autofree gchar *path = NULL;
+    const gchar *xml;
+    guint flags;
+
+    g_variant_get(inArgs, "(&su)", &xml, &flags);
+
+    if (!virtDBusConnectOpen(connect, error))
+        return;
+
+    interface = virInterfaceDefineXML(connect->connection, xml, flags);
+    if (!interface)
+        return virtDBusUtilSetLastVirtError(error);
+
+    path = virtDBusUtilBusPathForVirInterface(interface, connect->interfacePath);
+
+    *outArgs = g_variant_new("(o)", path);
+}
+
+static void
 virtDBusConnectListDomains(GVariant *inArgs,
                            GUnixFDList *inFDs G_GNUC_UNUSED,
                            const gchar *objectPath G_GNUC_UNUSED,
@@ -1766,6 +1795,7 @@ static virtDBusGDBusMethodTable virtDBusConnectMethodTable[] = {
     { "GetCPUModelNames", virtDBusConnectGetCPUModelNames },
     { "GetDomainCapabilities", virtDBusConnectGetDomainCapabilities },
     { "GetSysinfo", virtDBusConnectGetSysinfo },
+    { "InterfaceDefineXML", virtDBusConnectInterfaceDefineXML },
     { "ListDomains", virtDBusConnectListDomains },
     { "ListNetworks", virtDBusConnectListNetworks },
     { "ListNodeDevices", virtDBusConnectListNodeDevices },
