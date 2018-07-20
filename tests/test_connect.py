@@ -88,6 +88,18 @@ class TestConnect(libvirttest.BaseTestClass):
         path = self.connect.InterfaceDefineXML(xmldata.minimal_interface_xml, 0)
         assert isinstance(path, dbus.ObjectPath)
 
+    @pytest.mark.parametrize("lookup_method_name,lookup_item", [
+        ("InterfaceLookupByName", 'Name'),
+    ])
+    def test_connect_interface_lookup_by_property(self, lookup_method_name, lookup_item):
+        """Parameterized test for all InterfaceLookupBy* API calls of Connect interface
+        """
+        original_path,_ = self.interface_create()
+        obj = self.bus.get_object('org.libvirt', original_path)
+        prop = obj.Get('org.libvirt.Interface', lookup_item, dbus_interface=dbus.PROPERTIES_IFACE)
+        path = getattr(self.connect, lookup_method_name)(prop)
+        assert original_path == path
+
     def test_connect_list_networks(self):
         networks = self.connect.ListNetworks(0)
         assert isinstance(networks, dbus.Array)

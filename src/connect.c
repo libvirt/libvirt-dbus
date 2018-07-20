@@ -828,6 +828,34 @@ virtDBusConnectInterfaceDefineXML(GVariant *inArgs,
 }
 
 static void
+virtDBusConnectInterfaceLookupByName(GVariant *inArgs,
+                                     GUnixFDList *inFDs G_GNUC_UNUSED,
+                                     const gchar *objectPath G_GNUC_UNUSED,
+                                     gpointer userData,
+                                     GVariant **outArgs,
+                                     GUnixFDList **outFDs G_GNUC_UNUSED,
+                                     GError **error)
+{
+    virtDBusConnect *connect = userData;
+    g_autoptr(virInterface) interface = NULL;
+    g_autofree gchar *path = NULL;
+    const gchar *name;
+
+    g_variant_get(inArgs, "(&s)", &name);
+
+    if (!virtDBusConnectOpen(connect, NULL))
+        return;
+
+    interface = virInterfaceLookupByName(connect->connection, name);
+    if (!interface)
+        return virtDBusUtilSetLastVirtError(error);
+
+    path = virtDBusUtilBusPathForVirInterface(interface, connect->interfacePath);
+
+    *outArgs = g_variant_new("(o)", path);
+}
+
+static void
 virtDBusConnectListDomains(GVariant *inArgs,
                            GUnixFDList *inFDs G_GNUC_UNUSED,
                            const gchar *objectPath G_GNUC_UNUSED,
@@ -1899,6 +1927,7 @@ static virtDBusGDBusMethodTable virtDBusConnectMethodTable[] = {
     { "InterfaceChangeCommit", virtDBusConnectInterfaceChangeCommit },
     { "InterfaceChangeRollback", virtDBusConnectInterfaceChangeRollback },
     { "InterfaceDefineXML", virtDBusConnectInterfaceDefineXML },
+    { "InterfaceLookupByName", virtDBusConnectInterfaceLookupByName },
     { "ListDomains", virtDBusConnectListDomains },
     { "ListInterfaces", virtDBusConnectListInterfaces },
     { "ListNetworks", virtDBusConnectListNetworks },
