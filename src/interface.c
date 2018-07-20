@@ -71,6 +71,27 @@ virtDBusInterfaceDestroy(GVariant *inArgs,
 }
 
 static void
+virtDBusInterfaceGetMAC(const gchar *objectPath,
+                        gpointer userData,
+                        GVariant **value,
+                        GError **error)
+{
+    virtDBusConnect *connect = userData;
+    g_autoptr(virInterface) interface = NULL;
+    const gchar *mac;
+
+    interface = virtDBusInterfaceGetVirInterface(connect, objectPath, error);
+    if (!interface)
+        return;
+
+    mac = virInterfaceGetMACString(interface);
+    if (!mac)
+        return virtDBusUtilSetLastVirtError(error);
+
+    *value = g_variant_new("s", mac);
+}
+
+static void
 virtDBusInterfaceGetName(const gchar *objectPath,
                          gpointer userData,
                          GVariant **value,
@@ -139,6 +160,7 @@ virtDBusInterfaceUndefine(GVariant *inArgs G_GNUC_UNUSED,
 }
 
 static virtDBusGDBusPropertyTable virtDBusInterfacePropertyTable[] = {
+    { "MAC", virtDBusInterfaceGetMAC, NULL },
     { "Name", virtDBusInterfaceGetName, NULL },
     { 0 }
 };
