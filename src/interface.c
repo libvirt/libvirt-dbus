@@ -47,12 +47,36 @@ virtDBusInterfaceCreate(GVariant *inArgs,
         virtDBusUtilSetLastVirtError(error);
 }
 
+static void
+virtDBusInterfaceDestroy(GVariant *inArgs,
+                         GUnixFDList *inFDs G_GNUC_UNUSED,
+                         const gchar *objectPath,
+                         gpointer userData,
+                         GVariant **outArgs G_GNUC_UNUSED,
+                         GUnixFDList **outFDs G_GNUC_UNUSED,
+                         GError **error)
+{
+    virtDBusConnect *connect = userData;
+    g_autoptr(virInterface) interface = NULL;
+    guint flags;
+
+    g_variant_get(inArgs, "(u)", &flags);
+
+    interface = virtDBusInterfaceGetVirInterface(connect, objectPath, error);
+    if (!interface)
+        return;
+
+    if (virInterfaceDestroy(interface, flags) < 0)
+        virtDBusUtilSetLastVirtError(error);
+}
+
 static virtDBusGDBusPropertyTable virtDBusInterfacePropertyTable[] = {
     { 0 }
 };
 
 static virtDBusGDBusMethodTable virtDBusInterfaceMethodTable[] = {
     { "Create", virtDBusInterfaceCreate },
+    { "Destroy", virtDBusInterfaceDestroy },
     { 0 }
 };
 

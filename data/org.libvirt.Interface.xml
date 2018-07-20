@@ -8,5 +8,10 @@
         value="See https://libvirt.org/html/libvirt-libvirt-interface.html#virInterfaceCreate"/>
       <arg name="flags" type="u" direction="in"/>
     </method>
+    <method name="Destroy">
+      <annotation name="org.gtk.GDBus.DocString"
+        value="See https://libvirt.org/html/libvirt-libvirt-interface.html#virInterfaceDestroy"/>
+      <arg name="flags" type="u" direction="in"/>
+    </method>
   </interface>
 </node>
