@@ -90,6 +90,7 @@ class TestConnect(libvirttest.BaseTestClass):
 
     @pytest.mark.parametrize("lookup_method_name,lookup_item", [
         ("InterfaceLookupByName", 'Name'),
+        ("InterfaceLookupByMAC", 'MAC'),
     ])
     def test_connect_interface_lookup_by_property(self, lookup_method_name, lookup_item):
         """Parameterized test for all InterfaceLookupBy* API calls of Connect interface

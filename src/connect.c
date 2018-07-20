@@ -828,6 +828,34 @@ virtDBusConnectInterfaceDefineXML(GVariant *inArgs,
 }
 
 static void
+virtDBusConnectInterfaceLookupByMAC(GVariant *inArgs,
+                                    GUnixFDList *inFDs G_GNUC_UNUSED,
+                                    const gchar *objectPath G_GNUC_UNUSED,
+                                    gpointer userData,
+                                    GVariant **outArgs,
+                                    GUnixFDList **outFDs G_GNUC_UNUSED,
+                                    GError **error)
+{
+    virtDBusConnect *connect = userData;
+    g_autoptr(virInterface) interface = NULL;
+    g_autofree gchar *path = NULL;
+    const gchar *mac;
+
+    g_variant_get(inArgs, "(&s)", &mac);
+
+    if (!virtDBusConnectOpen(connect, NULL))
+        return;
+
+    interface = virInterfaceLookupByMACString(connect->connection, mac);
+    if (!interface)
+        return virtDBusUtilSetLastVirtError(error);
+
+    path = virtDBusUtilBusPathForVirInterface(interface, connect->interfacePath);
+
+    *outArgs = g_variant_new("(o)", path);
+}
+
+static void
 virtDBusConnectInterfaceLookupByName(GVariant *inArgs,
                                      GUnixFDList *inFDs G_GNUC_UNUSED,
                                      const gchar *objectPath G_GNUC_UNUSED,
@@ -1927,6 +1955,7 @@ static virtDBusGDBusMethodTable virtDBusConnectMethodTable[] = {
     { "InterfaceChangeCommit", virtDBusConnectInterfaceChangeCommit },
     { "InterfaceChangeRollback", virtDBusConnectInterfaceChangeRollback },
     { "InterfaceDefineXML", virtDBusConnectInterfaceDefineXML },
+    { "InterfaceLookupByMAC", virtDBusConnectInterfaceLookupByMAC },
     { "InterfaceLookupByName", virtDBusConnectInterfaceLookupByName },
     { "ListDomains", virtDBusConnectListDomains },
     { "ListInterfaces", virtDBusConnectListInterfaces },
