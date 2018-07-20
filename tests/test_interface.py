@@ -25,5 +25,13 @@ class TestInterface(libvirttest.BaseTestClass):
         _,interface_obj = self.interface_create()
         assert isinstance(interface_obj.GetXMLDesc(0), dbus.String)
 
+    def test_interface_properties_type(self):
+        """ Ensure correct return type for Interface properties
+        """
+        test_interface_path,_ = self.interface_create()
+        obj = self.bus.get_object('org.libvirt', test_interface_path)
+        props = obj.GetAll('org.libvirt.Interface', dbus_interface=dbus.PROPERTIES_IFACE)
+        assert isinstance(props['Name'], dbus.String)
+
 if __name__ == '__main__':
     libvirttest.run()

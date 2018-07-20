@@ -71,6 +71,27 @@ virtDBusInterfaceDestroy(GVariant *inArgs,
 }
 
 static void
+virtDBusInterfaceGetName(const gchar *objectPath,
+                         gpointer userData,
+                         GVariant **value,
+                         GError **error)
+{
+    virtDBusConnect *connect = userData;
+    g_autoptr(virInterface) interface = NULL;
+    const gchar *name;
+
+    interface = virtDBusInterfaceGetVirInterface(connect, objectPath, error);
+    if (!interface)
+        return;
+
+    name = virInterfaceGetName(interface);
+    if (!name)
+        return virtDBusUtilSetLastVirtError(error);
+
+    *value = g_variant_new("s", name);
+}
+
+static void
 virtDBusInterfaceGetXMLDesc(GVariant *inArgs,
                             GUnixFDList *inFDs G_GNUC_UNUSED,
                             const gchar *objectPath,
@@ -118,6 +139,7 @@ virtDBusInterfaceUndefine(GVariant *inArgs G_GNUC_UNUSED,
 }
 
 static virtDBusGDBusPropertyTable virtDBusInterfacePropertyTable[] = {
+    { "Name", virtDBusInterfaceGetName, NULL },
     { 0 }
 };
 
