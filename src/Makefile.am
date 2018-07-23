@@ -28,7 +28,7 @@ libutil_la_SOURCES = \
 	util.h \
 	$(NULL)
 
-bin_PROGRAMS = \
+sbin_PROGRAMS = \
 	libvirt-dbus \
 	$(NULL)
 

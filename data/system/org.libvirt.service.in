@@ -1,4 +1,4 @@
 [D-BUS Service]
 Name=org.libvirt
-Exec=@bindir@/libvirt-dbus --system
+Exec=@sbindir@/libvirt-dbus --system
 User=@SYSTEM_USER@
