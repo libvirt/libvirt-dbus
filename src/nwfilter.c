@@ -10,7 +10,7 @@ virtDBusNWFilterGetVirNWFilter(virtDBusConnect *connect,
 {
     virNWFilterPtr nwfilter;
 
-    if (virtDBusConnectOpen(connect, error) < 0)
+    if (!virtDBusConnectOpen(connect, error))
         return NULL;
 
     nwfilter = virtDBusUtilVirNWFilterFromBusPath(connect->connection,

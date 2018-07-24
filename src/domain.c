@@ -152,7 +152,7 @@ virtDBusDomainGetVirDomain(virtDBusConnect *connect,
 {
     virDomainPtr domain;
 
-    if (virtDBusConnectOpen(connect, error) < 0)
+    if (!virtDBusConnectOpen(connect, error))
         return NULL;
 
     domain = virtDBusUtilVirDomainFromBusPath(connect->connection,

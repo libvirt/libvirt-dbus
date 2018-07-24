@@ -10,7 +10,7 @@ virtDBusStorageVolGetVirStorageVol(virtDBusConnect *connect,
 {
     virStorageVolPtr storageVol;
 
-    if (virtDBusConnectOpen(connect, error) < 0)
+    if (!virtDBusConnectOpen(connect, error))
         return NULL;
 
     storageVol = virtDBusUtilVirStorageVolFromBusPath(connect->connection,

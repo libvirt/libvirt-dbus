@@ -10,7 +10,7 @@ virtDBusSecretGetVirSecret(virtDBusConnect *connect,
 {
     virSecretPtr secret;
 
-    if (virtDBusConnectOpen(connect, error) < 0)
+    if (!virtDBusConnectOpen(connect, error))
         return NULL;
 
     secret = virtDBusUtilVirSecretFromBusPath(connect->connection,

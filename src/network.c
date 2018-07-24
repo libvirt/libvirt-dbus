@@ -21,7 +21,7 @@ virtDBusNetworkGetVirNetwork(virtDBusConnect *connect,
 {
     virNetworkPtr network;
 
-    if (virtDBusConnectOpen(connect, error) < 0)
+    if (!virtDBusConnectOpen(connect, error))
         return NULL;
 
     network = virtDBusUtilVirNetworkFromBusPath(connect->connection,

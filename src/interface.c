@@ -10,7 +10,7 @@ virtDBusInterfaceGetVirInterface(virtDBusConnect *connect,
 {
     virInterfacePtr interface;
 
-    if (virtDBusConnectOpen(connect, error) < 0)
+    if (!virtDBusConnectOpen(connect, error))
         return NULL;
 
     interface = virtDBusUtilVirInterfaceFromBusPath(connect->connection,

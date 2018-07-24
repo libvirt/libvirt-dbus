@@ -10,7 +10,7 @@ virtDBusStoragePoolGetVirStoragePool(virtDBusConnect *connect,
 {
     virStoragePoolPtr storagePool;
 
-    if (virtDBusConnectOpen(connect, error) < 0)
+    if (!virtDBusConnectOpen(connect, error))
         return NULL;
 
     storagePool = virtDBusUtilVirStoragePoolFromBusPath(connect->connection,

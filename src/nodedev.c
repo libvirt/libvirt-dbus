@@ -10,7 +10,7 @@ virtDBusNodeDeviceGetVirNodeDevice(virtDBusConnect *connect,
 {
     virNodeDevicePtr dev;
 
-    if (virtDBusConnectOpen(connect, error) < 0)
+    if (!virtDBusConnectOpen(connect, error))
         return NULL;
 
     dev = virtDBusUtilVirNodeDeviceFromBusPath(connect->connection,
