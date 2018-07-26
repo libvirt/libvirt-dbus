@@ -5,6 +5,7 @@ import libvirttest
 
 DBUS_EXCEPTION_MISSING_FUNCTION = 'this function is not supported by the connection driver'
 
+
 class TestDomain(libvirttest.BaseTestClass):
     def test_api(self):
         obj, domain = self.get_test_domain()
@@ -153,8 +154,8 @@ class TestDomain(libvirttest.BaseTestClass):
     def test_domain_vcpu_pin_info(self):
         obj, domain = self.get_test_domain()
         pinInfo_expected = [
-                [ True, True, True, True, True, True, True, True ],
-                [ True, True, True, True, True, True, True, True ]
+            [True, True, True, True, True, True, True, True],
+            [True, True, True, True, True, True, True, True]
         ]
         pinInfo = domain.GetVcpuPinInfo(0)
         assert pinInfo == pinInfo_expected

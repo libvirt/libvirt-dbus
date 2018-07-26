@@ -107,7 +107,6 @@ class BaseTestClass():
         path = interface_obj.StorageVolCreateXML(xmldata.minimal_storage_vol_xml, 0)
         yield path
 
-
     def get_test_domain(self):
         path = self.connect.ListDomains(0)[0]
         obj = self.bus.get_object('org.libvirt', path)
@@ -196,7 +195,7 @@ class DomainEventStoppedDetailType(IntEnum):
     SHUTDOWN = 0
     DESTROYED = 1
     CRASHED = 2
-    MIGRATED =	3
+    MIGRATED = 3
     SAVED = 4
     FAILED = 5
     FROM_SNAPSHOT = 6
@@ -205,9 +204,9 @@ class DomainEventStoppedDetailType(IntEnum):
 
 class DomainEventSuspendedDetailType(IntEnum):
     PAUSED = 0
-    MIGRATED	= 1
+    MIGRATED = 1
     IOERROR = 2
-    WATCHDOG	= 3
+    WATCHDOG = 3
     RESTORED = 4
     FROM_SNAPSHOT = 5
     API_ERROR = 6
@@ -240,9 +239,11 @@ class NetworkEvent(IntEnum):
     STARTED = 2
     STOPPED = 3
 
+
 class NodeDeviceEvent(IntEnum):
     CREATED = 0
     DELETED = 1
+
 
 class StoragePoolBuildFlags(IntEnum):
     NEW = 0

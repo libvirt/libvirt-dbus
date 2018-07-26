@@ -4,6 +4,7 @@ import dbus
 import libvirttest
 import pytest
 
+
 class TestStoragePool(libvirttest.BaseTestClass):
     def test_storage_pool_autostart(self):
         _, test_storage_pool = self.get_test_storage_pool()

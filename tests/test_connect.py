@@ -96,7 +96,7 @@ class TestConnect(libvirttest.BaseTestClass):
     def test_connect_interface_lookup_by_property(self, lookup_method_name, lookup_item, interface_create):
         """Parameterized test for all InterfaceLookupBy* API calls of Connect interface
         """
-        original_path,_ = interface_create
+        original_path, _ = interface_create
         obj = self.bus.get_object('org.libvirt', original_path)
         prop = obj.Get('org.libvirt.Interface', lookup_item, dbus_interface=dbus.PROPERTIES_IFACE)
         path = getattr(self.connect, lookup_method_name)(prop)
