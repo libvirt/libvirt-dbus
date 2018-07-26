@@ -71,6 +71,7 @@ class BaseTestClass():
         if self.timeout:
             raise TimeoutError()
 
+    @pytest.fixture
     def interface_create(self):
         """ Fixture to define dummy interface on the test driver
 
