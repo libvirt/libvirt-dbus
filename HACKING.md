@@ -29,13 +29,19 @@ Running from git repository
     ```
 
 
-  * Before posting a patch, you should run tests:
+  * Before posting a patch, you should run tests and perform syntax-checking:
 
     ```
     make check
     ```
 
     The test tool requires python3, python3-pytest and python3-dbus.
+
+    ```
+    make syntax-check
+    ```
+
+    To run this flake8 package is required.
 
 
   * To run libvirt-dbus directly from the build dir without installing it

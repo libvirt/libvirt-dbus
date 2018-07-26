@@ -42,3 +42,10 @@ gen-AUTHORS:
 	  mv -f $(distdir)/AUTHORS-tmp $(distdir)/AUTHORS && \
 	  rm -f all.list maint.list contrib.list; \
 	fi
+
+# E501: (line too long) warning is ignored.
+.PHONY: flake8
+flake8:
+	flake8 --show-source --ignore=E501
+
+syntax-check: flake8
