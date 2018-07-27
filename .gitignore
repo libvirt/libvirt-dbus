@@ -3,6 +3,7 @@
 *.log
 *.o
 *.pyc
+*.swp
 *.trs
 *Makefile
 *Makefile.in
