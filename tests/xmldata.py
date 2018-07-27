@@ -41,7 +41,7 @@ minimal_network_xml = '''
 minimal_node_device_xml = '''
 <device>
   <name>scsi_host22</name>
-  <parent>scsi_host2</parent>
+  <parent>@parent@</parent>
   <capability type='scsi_host'>
     <host>22</host>
     <unique_id>22</unique_id>

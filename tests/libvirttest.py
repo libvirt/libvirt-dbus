@@ -91,7 +91,22 @@ class BaseTestClass():
         This fixture should be used in the setup of every test manipulating
         with node devices.
         """
-        path = self.connect.NodeDeviceCreateXML(xmldata.minimal_node_device_xml, 0)
+        # We need a usable parent nodedev: possible candidates are
+        # scsi_host2 (available since libvirt 3.1.0) and
+        # test-scsi-host-vport (available until libvirt 3.0.0).
+        #
+        # Looking up a non-existing nodedev raises an exception, so
+        # we need to ignore them here: that's okay, because if we
+        # can't find any then NodeDeviceCreateXML() itself will fail
+        xml = xmldata.minimal_node_device_xml
+        for parent in ['scsi_host2', 'test-scsi-host-vport']:
+            try:
+                if self.connect.NodeDeviceLookupByName(parent):
+                    xml = xml.replace('@parent@', parent)
+                    break
+            except dbus.exceptions.DBusException:
+                pass
+        path = self.connect.NodeDeviceCreateXML(xml, 0)
         return path
 
     @pytest.fixture
