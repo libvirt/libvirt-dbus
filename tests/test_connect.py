@@ -195,7 +195,7 @@ class TestConnect(libvirttest.BaseTestClass):
 
         self.connect.connect_to_signal('NodeDeviceEvent', node_device_created)
 
-        path = self.connect.NodeDeviceCreateXML(xmldata.minimal_node_device_xml, 0)
+        path = self.node_device_create()
         assert isinstance(path, dbus.ObjectPath)
 
         self.main_loop()
