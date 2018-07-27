@@ -5,7 +5,6 @@ import libvirttest
 import pytest
 
 
-@pytest.mark.usefixtures("node_device_create")
 class TestNodeDevice(libvirttest.BaseTestClass):
     """ Tests for methods and properties of the NodeDevice interface
     """
