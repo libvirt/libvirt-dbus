@@ -1,6 +1,6 @@
 AC_INIT([libvirt-dbus], [1.3.0], [libvir-list@redhat.com], [], [https://libvirt.org])
 
-AC_CONFIG_SRCDIR(src/main.c)
+AC_CONFIG_SRCDIR([src/main.c])
 AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_MACRO_DIR([m4])
@@ -37,10 +37,10 @@ AM_PROG_CC_C_O
 AC_PROG_CC_STDC
 AC_PROG_LIBTOOL
 
-PKG_CHECK_MODULES(GIO2, gio-unix-2.0 >= GLIB2_REQUIRED)
-PKG_CHECK_MODULES(GLIB2, glib-2.0 >= GLIB2_REQUIRED)
-PKG_CHECK_MODULES(LIBVIRT, libvirt >= $LIBVIRT_REQUIRED)
-PKG_CHECK_MODULES(LIBVIRT_GLIB, libvirt-glib-1.0 >= LIBVIRT_GLIB_REQUIRED)
+PKG_CHECK_MODULES([GIO2], [gio-unix-2.0 >= GLIB2_REQUIRED])
+PKG_CHECK_MODULES([GLIB2], [glib-2.0 >= GLIB2_REQUIRED])
+PKG_CHECK_MODULES([LIBVIRT], [libvirt >= $LIBVIRT_REQUIRED])
+PKG_CHECK_MODULES([LIBVIRT_GLIB], [libvirt-glib-1.0 >= LIBVIRT_GLIB_REQUIRED])
 
 LIBVIRT_COMPILE_WARNINGS
 LIBVIRT_LINKER_RELRO
@@ -49,17 +49,17 @@ LIBVIRT_COMPILE_PIE
 LIBVIRT_ARG_WITH([DBUS_SERVICES], [where D-Bus session services direcotry is],
                  ['$(datadir)/dbus-1/services'])
 DBUS_SERVICES_DIR="$with_dbus_services"
-AC_SUBST(DBUS_SERVICES_DIR)
+AC_SUBST([DBUS_SERVICES_DIR])
 
 LIBVIRT_ARG_WITH([DBUS_SYSTEM_SERVICES], [where D-Bus system services directory is],
                  ['$(datadir)/dbus-1/system-services'])
 DBUS_SYSTEM_SERVICES_DIR="$with_dbus_system_services"
-AC_SUBST(DBUS_SYSTEM_SERVICES_DIR)
+AC_SUBST([DBUS_SYSTEM_SERVICES_DIR])
 
 LIBVIRT_ARG_WITH([DBUS_SYSTEM_POLICIES], [where D-Bus system policies directory is],
                  ['$(datadir)/dbus-1/system.d'])
 DBUS_SYSTEM_POLICIES_DIR="$with_dbus_system_policies"
-AC_SUBST(DBUS_SYSTEM_POLICIES_DIR)
+AC_SUBST([DBUS_SYSTEM_POLICIES_DIR])
 
 LIBVIRT_ARG_WITH([DBUS_INTERFACES], [where D-Bus interfaces directory is],
                  ['$(datadir)/dbus-1/interfaces'])
@@ -69,7 +69,7 @@ AC_SUBST([DBUS_INTERFACES_DIR])
 LIBVIRT_ARG_WITH([POLKIT_RULES], [directory for polkit rules],
                  ['$(datadir)/polkit-1/rules.d'])
 POLKIT_RULES_DIR="$with_polkit_rules"
-AC_SUBST(POLKIT_RULES_DIR)
+AC_SUBST([POLKIT_RULES_DIR])
 
 LIBVIRT_ARG_WITH([SYSTEM_USER], [username to run system instance as],
                  ['libvirtdbus'])
@@ -78,9 +78,9 @@ AC_SUBST([SYSTEM_USER])
 
 AC_CONFIG_FILES([run],
                 [chmod +x,-w run])
-AC_OUTPUT(Makefile
-          data/Makefile
-          docs/Makefile
-          src/Makefile
-          tests/Makefile
-          libvirt-dbus.spec)
+AC_OUTPUT([Makefile
+           data/Makefile
+           docs/Makefile
+           src/Makefile
+           tests/Makefile
+           libvirt-dbus.spec])
