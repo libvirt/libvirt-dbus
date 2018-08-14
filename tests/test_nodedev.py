@@ -2,7 +2,6 @@
 
 import dbus
 import libvirttest
-import pytest
 
 
 class TestNodeDevice(libvirttest.BaseTestClass):
