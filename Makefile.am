@@ -46,6 +46,6 @@ gen-AUTHORS:
 # E501: (line too long) warning is ignored.
 .PHONY: flake8
 flake8:
-	flake8 --show-source --ignore=E501 $(srcdir)
+	$(FLAKE8) --show-source --ignore=E501 $(srcdir)
 
 syntax-check: flake8
