@@ -44,3 +44,8 @@ virtDBusConnectOpen(virtDBusConnect *connect,
 
 void
 virtDBusConnectListFree(virtDBusConnect **connectList);
+
+void
+virtDBusConnectFree(virtDBusConnect *connect);
+
+G_DEFINE_AUTOPTR_CLEANUP_FUNC(virtDBusConnect, virtDBusConnectFree);

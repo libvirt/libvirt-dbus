@@ -1995,7 +1995,7 @@ static virtDBusGDBusMethodTable virtDBusConnectMethodTable[] = {
 
 static GDBusInterfaceInfo *interfaceInfo = NULL;
 
-static void
+void
 virtDBusConnectFree(virtDBusConnect *connect)
 {
     if (connect->connection)
@@ -2011,7 +2011,6 @@ virtDBusConnectFree(virtDBusConnect *connect)
     g_free(connect->storageVolPath);
     g_free(connect);
 }
-G_DEFINE_AUTOPTR_CLEANUP_FUNC(virtDBusConnect, virtDBusConnectFree);
 
 void
 virtDBusConnectNew(virtDBusConnect **connectp,
