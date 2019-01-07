@@ -182,11 +182,12 @@ virtDBusUtilDecodeUUID(const gchar *uuid)
 }
 
 static guchar
-virtDBusUtilNumToHexchar(const guchar c)
+virtDBusUtilNumToHexchar(const guchar n)
 {
+    guchar c = n & 0x0f;
     if (c < 10)
         return '0' + c;
-    return 'a' + (c & 0x0f) - 10;
+    return 'a' + c - 10;
 }
 
 static guchar
