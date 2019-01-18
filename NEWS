@@ -1,6 +1,25 @@
 libvirt-dbus releases
 =====================
 
+# v1.3.0 (2019-01-18)
+
+  * New features
+
+    - Support for all relevant interface APIs up to libvirt 3.0.0
+
+  * Bug fixes
+
+    - Storage volumes and with special characters in the name are now correctly listed
+
+  * Build-system improvements
+
+    - Detect flake8 automatically
+
+    - Install daemon under @sbindir@
+
+    - Fix version check for dependencies
+
+
 # v1.2.0 (2018-07-04)
 
   * Bug fixes
