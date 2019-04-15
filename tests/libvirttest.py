@@ -84,13 +84,7 @@ class BaseTestClass():
         interface_obj.Create(0)
         return path, interface_obj
 
-    @pytest.fixture
     def node_device_create(self):
-        """ Fixture to create dummy node device on the test driver
-
-        This fixture should be used in the setup of every test manipulating
-        with node devices.
-        """
         # We need a usable parent nodedev: possible candidates are
         # scsi_host2 (available since libvirt 3.1.0) and
         # test-scsi-host-vport (available until libvirt 3.0.0).
@@ -108,6 +102,15 @@ class BaseTestClass():
                 pass
         path = self.connect.NodeDeviceCreateXML(xml, 0)
         return path
+
+    @pytest.fixture(name="node_device_create")
+    def fixture_node_device_create(self):
+        """ Fixture to create dummy node device on the test driver
+
+        This fixture should be used in the setup of every test manipulating
+        with node devices.
+        """
+        return self.node_device_create()
 
     @pytest.fixture
     def storage_volume_create(self):
