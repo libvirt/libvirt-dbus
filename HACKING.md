@@ -16,32 +16,40 @@ Alternatively you can use one of the mirrors:
 Running from git repository
 ---------------------------
 
-  * The first step is to run autoreconf to create configure script:
+  * The first step is to run meson to create build directory:
 
     ```
-    ./autogen.sh
+    meson build
     ```
 
     Now you can compile libvirt-dbus:
 
     ```
-    make
+    ninja -C build
     ```
 
 
-  * Before posting a patch, you should run tests and perform syntax-checking:
+  * Before posting a patch, you should run tests:
 
     ```
-    make check
+    ninja -C build test
     ```
 
-    The test tool requires python3, python3-pytest and python3-dbus.
+    The test tool requires python3, python3-pytest, python3-dbus and flake8.
+
+    It is possible to run only specific test using:
 
     ```
-    make syntax-check
+    meson test -C build $test-name
     ```
 
-    To run this flake8 package is required.
+    or a group of tests:
+
+    ```
+    meson test -C build --suite $label
+    ```
+
+    For more information see [https://mesonbuild.com/Unit-tests.html#testing-tool](https://mesonbuild.com/Unit-tests.html#testing-tool).
 
 
   * To run libvirt-dbus directly from the build dir without installing it

@@ -1,5 +1,6 @@
 # -*- rpm-spec -*-
 
+%global meson_version @MESON_VERSION@
 %global glib2_version @GLIB2_REQUIRED@
 %global libvirt_version @LIBVIRT_REQUIRED@
 %global libvirt_glib_version @LIBVIRT_GLIB_REQUIRED@
@@ -14,7 +15,7 @@ URL: https://libvirt.org/
 Source0: https://libvirt.org/sources/dbus/%{name}-%{version}.tar.xz
 
 BuildRequires: gcc
-BuildRequires: libtool
+BuildRequires: meson >= %{meson_version}
 BuildRequires: glib2-devel >= %{glib2_version}
 BuildRequires: libvirt-devel >= %{libvirt_version}
 BuildRequires: libvirt-glib-devel >= %{libvirt_glib_version}
@@ -35,11 +36,11 @@ This package provides D-Bus API for libvirt
 %autosetup
 
 %build
-%configure
-%make_build
+%meson
+%meson_build
 
 %install
-%make_install
+%meson_install
 
 %pre
 getent group %{system_user} >/dev/null || groupadd -r %{system_user}

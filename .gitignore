@@ -19,6 +19,7 @@ vgcore.*
 /aclocal.m4
 /autom4te.cache/
 /build-aux/
+/build/
 /config.h
 /config.h.in
 /config.log

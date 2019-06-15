@@ -1,0 +1,6 @@
+#!/bin/sh
+
+PERMS=$1
+FILE=$2
+
+chmod $PERMS $MESON_BUILD_ROOT/$FILE

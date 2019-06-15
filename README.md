@@ -32,21 +32,19 @@ The packages required to build libvirt-dbus are
 Installation
 ------------
 
-libvirt-dbus uses GNU Autotools build system, so the build & install
+libvirt-dbus uses Meson build system, so the build & install
 process is fairly simple. For example, to install as root user:
 
 ```
-# ./configure --prefix=/usr --sysconfigdir=/etc --localstatedir=/var
-# make
-# make install
+# meson build --prefix=/usr --sysconfdir=/etc --localstatedir=/var
+# ninja -C build install
 ```
 
 or to install as unprivileged user:
 
 ```
-$ ./configure --prefix=$HOME/usr
-$ make
-$ make install
+$ meson build --prefix=$HOME/usr
+$ ninja -C build install
 ```
 
 

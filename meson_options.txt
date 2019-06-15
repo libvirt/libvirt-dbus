@@ -1,0 +1,6 @@
+option('dbus_services', type: 'string', value: 'dbus-1/services', description: 'D-Bus session services directory')
+option('dbus_system_services', type: 'string', value: 'dbus-1/system-services', description: 'D-Bus system services directory')
+option('dbus_system_policies', type: 'string', value: 'dbus-1/system.d', description: 'D-Bus system policies directory')
+option('dbus_interfaces', type: 'string', value: 'dbus-1/interfaces', description: 'D-Bus interfaces directory')
+option('polkit_rules', type: 'string', value: 'polkit-1/rules.d', description: 'polkit rules directory')
+option('system_user', type: 'string', value: 'libvirtdbus', description: 'username to run system instance as')
