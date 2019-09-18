@@ -136,7 +136,7 @@ virtDBusDomainGVariantToCpumap(GVariantIter *iter,
     guint cnt = 0;
 
     *cpumaplen = VIR_CPU_MAPLEN(cpus);
-    *cpumap = g_new0(guchar, cpumaplen);
+    *cpumap = g_new0(guchar, *cpumaplen);
 
     while (g_variant_iter_loop(iter, "b", &usable)) {
         if (usable)
