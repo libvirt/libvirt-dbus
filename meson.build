@@ -9,12 +9,30 @@ project(
     ],
 )
 
+prefix = get_option('prefix')
+datadir = prefix / get_option('datadir')
+sbindir = prefix / get_option('sbindir')
+
+opt_dirs = [
+    'dbus_interfaces',
+    'dbus_services',
+    'dbus_system_services',
+    'dbus_system_policies',
+    'polkit_rules',
+]
+
+foreach opt_dir : opt_dirs
+    value = get_option(opt_dir)
+    varname = '@0@_dir'.format(opt_dir)
+    set_variable(varname, datadir / value)
+endforeach
+
 conf = configuration_data()
 conf.set('MESON_VERSION', '0.49.0')
 conf.set('PACKAGE', meson.project_name())
 conf.set('VERSION', meson.project_version())
 conf.set('build_root', meson.build_root())
-conf.set('sbindir', get_option('sbindir'))
+conf.set('sbindir', sbindir)
 conf.set('source_root', meson.source_root())
 
 
@@ -39,24 +57,6 @@ git = run_command('test', '-d', '.git').returncode() == 0
 # Configure options
 
 conf.set('SYSTEM_USER', get_option('system_user'))
-
-opt_dirs = [
-    'dbus_interfaces',
-    'dbus_services',
-    'dbus_system_services',
-    'dbus_system_policies',
-    'polkit_rules',
-]
-
-foreach opt_dir : opt_dirs
-    value = get_option(opt_dir)
-    varname = '@0@_dir'.format(opt_dir)
-    if opt_dir.startswith('/')
-        set_variable(varname, value)
-    else
-        set_variable(varname, join_paths(get_option('datadir'), value))
-    endif
-endforeach
 
 
 # Compile flags
