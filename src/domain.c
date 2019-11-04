@@ -1858,6 +1858,49 @@ virtDBusDomainInjectNMI(GVariant *inArgs,
 }
 
 static void
+virtDBusDomainListDomainSnapshots(GVariant *inArgs,
+                                  GUnixFDList *inFDs G_GNUC_UNUSED,
+                                  const gchar *objectPath,
+                                  gpointer userData,
+                                  GVariant **outArgs G_GNUC_UNUSED,
+                                  GUnixFDList **outFDs G_GNUC_UNUSED,
+                                  GError **error)
+{
+    virtDBusConnect *connect = userData;
+    g_autoptr(virDomain) domain = NULL;
+    g_autoptr(virDomainSnapshotPtr) domainSnapshots = NULL;
+    guint flags;
+    GVariantBuilder builder;
+    GVariant *gdomainSnapshots;
+
+    g_variant_get(inArgs, "(u)", &flags);
+
+    domain = virtDBusDomainGetVirDomain(connect, objectPath, error);
+    if (!domain)
+        return;
+
+    if (!virtDBusConnectOpen(connect, error))
+        return;
+
+    if (virDomainListAllSnapshots(domain, &domainSnapshots, flags) < 0)
+        return virtDBusUtilSetLastVirtError(error);
+
+    g_variant_builder_init(&builder, G_VARIANT_TYPE("ao"));
+
+    for (gint i = 0; domainSnapshots[i]; i++) {
+        g_autofree gchar *path = NULL;
+        path = virtDBusUtilBusPathForVirDomainSnapshot(domain,
+                                                       domainSnapshots[i],
+                                                       connect->domainSnapshotPath);
+
+        g_variant_builder_add(&builder, "o", path);
+    }
+
+    gdomainSnapshots = g_variant_builder_end(&builder);
+    *outArgs = g_variant_new_tuple(&gdomainSnapshots, 1);
+}
+
+static void
 virtDBusDomainInterfaceAddresses(GVariant *inArgs,
                                  GUnixFDList *inFDs G_GNUC_UNUSED,
                                  const gchar *objectPath,
@@ -2967,6 +3010,113 @@ virtDBusDomainShutdown(GVariant *inArgs,
 }
 
 static void
+virtDBusDomainSnapshotCurrent(GVariant *inArgs,
+                              GUnixFDList *inFDs G_GNUC_UNUSED,
+                              const gchar *objectPath,
+                              gpointer userData,
+                              GVariant **outArgs G_GNUC_UNUSED,
+                              GUnixFDList **outFDs G_GNUC_UNUSED,
+                              GError **error)
+{
+    virtDBusConnect *connect = userData;
+    g_autofree gchar *path = NULL;
+    g_autoptr(virDomain) domain = NULL;
+    g_autoptr(virDomainSnapshot) snapshot = NULL;
+    guint flags;
+
+    g_variant_get(inArgs, "(u)", &flags);
+
+    domain = virtDBusDomainGetVirDomain(connect, objectPath, error);
+    if (!domain)
+        return;
+
+    if (!virtDBusConnectOpen(connect, error))
+        return;
+
+    snapshot = virDomainSnapshotCurrent(domain, flags);
+    if (!snapshot)
+        return virtDBusUtilSetLastVirtError(error);
+
+    path = virtDBusUtilBusPathForVirDomainSnapshot(domain,
+                                                   snapshot,
+                                                   connect->domainSnapshotPath);
+
+    *outArgs = g_variant_new("(o)", path);
+}
+
+static void
+virtDBusDomainSnapshotCreateXML(GVariant *inArgs,
+                                GUnixFDList *inFDs G_GNUC_UNUSED,
+                                const gchar *objectPath,
+                                gpointer userData,
+                                GVariant **outArgs G_GNUC_UNUSED,
+                                GUnixFDList **outFDs G_GNUC_UNUSED,
+                                GError **error)
+{
+    virtDBusConnect *connect = userData;
+    g_autofree gchar *path = NULL;
+    g_autoptr(virDomain) domain = NULL;
+    g_autoptr(virDomainSnapshot) snapshot = NULL;
+    guint flags;
+    const gchar *xml;
+
+    g_variant_get(inArgs, "(&su)", &xml, &flags);
+
+    domain = virtDBusDomainGetVirDomain(connect, objectPath, error);
+    if (!domain)
+        return;
+
+    if (!virtDBusConnectOpen(connect, error))
+        return;
+
+    snapshot = virDomainSnapshotCreateXML(domain, xml, flags);
+    if (!snapshot)
+        return virtDBusUtilSetLastVirtError(error);
+
+    path = virtDBusUtilBusPathForVirDomainSnapshot(domain,
+                                                   snapshot,
+                                                   connect->domainSnapshotPath);
+
+    *outArgs = g_variant_new("(o)", path);
+}
+
+static void
+virtDBusDomainSnapshotLookupByName(GVariant *inArgs,
+                                   GUnixFDList *inFDs G_GNUC_UNUSED,
+                                   const gchar *objectPath,
+                                   gpointer userData,
+                                   GVariant **outArgs G_GNUC_UNUSED,
+                                   GUnixFDList **outFDs G_GNUC_UNUSED,
+                                   GError **error)
+{
+    virtDBusConnect *connect = userData;
+    g_autofree gchar *path = NULL;
+    g_autoptr(virDomain) domain = NULL;
+    g_autoptr(virDomainSnapshot) snapshot = NULL;
+    guint flags;
+    const gchar *name;
+
+    g_variant_get(inArgs, "(&su)", &name, &flags);
+
+    domain = virtDBusDomainGetVirDomain(connect, objectPath, error);
+    if (!domain)
+        return;
+
+    if (!virtDBusConnectOpen(connect, error))
+        return;
+
+    snapshot = virDomainSnapshotLookupByName(domain, name, flags);
+    if (!snapshot)
+        return virtDBusUtilSetLastVirtError(error);
+
+    path = virtDBusUtilBusPathForVirDomainSnapshot(domain,
+                                                   snapshot,
+                                                   connect->domainSnapshotPath);
+
+    *outArgs = g_variant_new("(o)", path);
+}
+
+static void
 virtDBusDomainSuspend(GVariant *inArgs G_GNUC_UNUSED,
                       GUnixFDList *inFDs G_GNUC_UNUSED,
                       const gchar *objectPath,
@@ -3095,6 +3245,7 @@ static virtDBusGDBusMethodTable virtDBusDomainMethodTable[] = {
     { "HasManagedSaveImage", virtDBusDomainHasManagedSaveImage },
     { "InjectNMI", virtDBusDomainInjectNMI },
     { "InterfaceAddresses", virtDBusDomainInterfaceAddresses },
+    { "ListDomainSnapshots", virtDBusDomainListDomainSnapshots },
     { "ManagedSave", virtDBusDomainManagedSave },
     { "ManagedSaveRemove", virtDBusDomainManagedSaveRemove },
     { "MemoryPeek", virtDBusDomainMemoryPeek },
@@ -3132,6 +3283,9 @@ static virtDBusGDBusMethodTable virtDBusDomainMethodTable[] = {
     { "SetSchedulerParameters", virtDBusDomainSetSchedulerParameters },
     { "SetTime", virtDBusDomainSetTime },
     { "SetUserPassword", virtDBusDomainSetUserPassword },
+    { "SnapshotCurrent", virtDBusDomainSnapshotCurrent },
+    { "SnapshotCreateXML", virtDBusDomainSnapshotCreateXML },
+    { "SnapshotLookupByName", virtDBusDomainSnapshotLookupByName },
     { "Shutdown", virtDBusDomainShutdown },
     { "Suspend", virtDBusDomainSuspend },
     { "Undefine", virtDBusDomainUndefine },

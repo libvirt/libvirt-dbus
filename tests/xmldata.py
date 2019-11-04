@@ -54,6 +54,12 @@ minimal_node_device_xml = '''
 </device>
 '''
 
+minimal_snapshot_xml = '''
+<domainsnapshot>
+    <name>my_snapshot</name>
+</domainsnapshot>
+'''
+
 minimal_storage_pool_xml = '''
 <pool type='dir'>
   <name>foo</name>

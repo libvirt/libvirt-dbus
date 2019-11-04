@@ -113,6 +113,18 @@ class BaseTestClass():
         return self.node_device_create()
 
     @pytest.fixture
+    def snapshot_create(self):
+        """ Fixture to create simple domain snapshot on the test driver
+
+        This fixture should be used in the setup of every test manipulating
+        with domain snaphots.
+        """
+        _, test_domain = self.get_test_domain()
+        path = test_domain.SnapshotCreateXML(xmldata.minimal_snapshot_xml, 0)
+        obj = self.bus.get_object('org.libvirt', path)
+        return dbus.Interface(obj, 'org.libvirt.DomainSnapshot')
+
+    @pytest.fixture
     def storage_volume_create(self):
         """ Fixture to create dummy storage volume on the test driver
 

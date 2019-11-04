@@ -350,6 +350,12 @@
       <arg name="flags" type="u" direction="in"/>
       <arg name="ifaces" type="a(ssa(isu))" direction="out"/>
     </method>
+    <method name="ListDomainSnapshots">
+      <annotation name="org.gtk.GDBus.DocString"
+        value="See https://libvirt.org/html/libvirt-libvirt-domain-snapshot.html#virDomainListAllSnapshots"/>
+      <arg name="flags" type="u" direction="in"/>
+      <arg name="domainSnapshots" type="ao" direction="out"/>
+    </method>
     <method name="ManagedSave">
       <annotation name="org.gtk.GDBus.DocString"
         value="See https://libvirt.org/html/libvirt-libvirt-domain.html#virDomainManagedSave"/>
@@ -588,6 +594,26 @@
       <annotation name="org.gtk.GDBus.DocString"
         value="See https://libvirt.org/html/libvirt-libvirt-domain.html#virDomainShutdownFlags"/>
       <arg name="flags" type="u" direction="in"/>
+    </method>
+    <method name="SnapshotCurrent">
+      <annotation name="org.gtk.GDBus.DocString"
+        value="See https://libvirt.org/html/libvirt-libvirt-domain-snapshot.html#virDomainSnapshotCurrent"/>
+      <arg name="flags" type="u" direction="in"/>
+      <arg name="domainSnapshot" type="o" direction="out"/>
+    </method>
+    <method name="SnapshotCreateXML">
+      <annotation name="org.gtk.GDBus.DocString"
+        value="See https://libvirt.org/html/libvirt-libvirt-domain-snapshot.html#virDomainSnapshotCreateXML"/>
+      <arg name="xml" type="s" direction="in"/>
+      <arg name="flags" type="u" direction="in"/>
+      <arg name="domainSnapshot" type="o" direction="out"/>
+    </method>
+    <method name="SnapshotLookupByName">
+      <annotation name="org.gtk.GDBus.DocString"
+        value="See https://libvirt.org/html/libvirt-libvirt-domain-snapshot.html#virDomainSnapshotLookupByName"/>
+      <arg name="name" type="s" direction="in"/>
+      <arg name="flags" type="u" direction="in"/>
+      <arg name="domainSnapshot" type="o" direction="out"/>
     </method>
     <method name="Suspend">
       <annotation name="org.gtk.GDBus.DocString"

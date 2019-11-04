@@ -3,5 +3,39 @@
 
 <node name="/org/libvirt/domainsnapshot">
   <interface name="org.libvirt.DomainSnapshot">
+    <method name="Delete">
+      <annotation name="org.gtk.GDBus.DocString"
+        value="See https://libvirt.org/html/libvirt-libvirt-domain-snapshot.html#virDomainSnapshotDelete"/>
+      <arg name="flags" type="u" direction="in"/>
+    </method>
+    <method name="GetParent">
+      <annotation name="org.gtk.GDBus.DocString"
+        value="See https://libvirt.org/html/libvirt-libvirt-domain-snapshot.html#virDomainSnapshotGetParent"/>
+      <arg name="flags" type="u" direction="in"/>
+      <arg name="domainSnapshot" type="o" direction="out"/>
+    </method>
+    <method name="GetXMLDesc">
+      <annotation name="org.gtk.GDBus.DocString"
+        value="See https://libvirt.org/html/libvirt-libvirt-domain-snapshot.html#virDomainSnapshotGetXMLDesc"/>
+      <arg name="flags" type="u" direction="in"/>
+      <arg name="xml" type="s" direction="out"/>
+    </method>
+    <method name="IsCurrent">
+      <annotation name="org.gtk.GDBus.DocString"
+        value="See https://libvirt.org/html/libvirt-libvirt-domain-snapshot.html#virDomainSnapshotIsCurrent"/>
+      <arg name="flags" type="u" direction="in"/>
+      <arg name="domainSnapshot" type="b" direction="out"/>
+    </method>
+    <method name="ListChildren">
+      <annotation name="org.gtk.GDBus.DocString"
+        value="See https://libvirt.org/html/libvirt-libvirt-domain-snapshot.html#virDomainSnapshotListAllChildren"/>
+      <arg name="flags" type="u" direction="in"/>
+      <arg name="domainSnapshots" type="ao" direction="out"/>
+    </method>
+    <method name="Revert">
+      <annotation name="org.gtk.GDBus.DocString"
+        value="See https://libvirt.org/html/libvirt-libvirt-domain-snapshot.html#virDomainRevertToSnapshot"/>
+      <arg name="flags" type="u" direction="in"/>
+    </method>
   </interface>
 </node>

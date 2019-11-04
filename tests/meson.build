@@ -22,6 +22,7 @@ test('test_util', test_exec, suite: 'unit')
 python_tests = [
     'test_connect.py',
     'test_domain.py',
+    'test_snapshot.py',
     'test_interface.py',
     'test_network.py',
     'test_nodedev.py',

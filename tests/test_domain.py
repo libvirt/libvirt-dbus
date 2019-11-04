@@ -2,6 +2,7 @@
 
 import dbus
 import libvirttest
+import xmldata
 
 DBUS_EXCEPTION_MISSING_FUNCTION = 'this function is not supported by the connection driver'
 
@@ -159,6 +160,13 @@ class TestDomain(libvirttest.BaseTestClass):
         ]
         pinInfo = domain.GetVcpuPinInfo(0)
         assert pinInfo == pinInfo_expected
+
+    def test_snapshot(self):
+        obj, domain = self.get_test_domain()
+        domain.SnapshotCreateXML(xmldata.minimal_snapshot_xml, 0)
+        assert isinstance(domain.SnapshotCurrent(0), dbus.ObjectPath)
+        assert isinstance(domain.SnapshotLookupByName("my_snapshot", 0), dbus.ObjectPath)
+        assert isinstance(domain.ListDomainSnapshots(0), dbus.Array)
 
 
 if __name__ == '__main__':
