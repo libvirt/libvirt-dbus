@@ -1,6 +1,7 @@
 install_data(
     'org.libvirt.Connect.xml',
     'org.libvirt.Domain.xml',
+    'org.libvirt.DomainSnapshot.xml',
     'org.libvirt.Interface.xml',
     'org.libvirt.Network.xml',
     'org.libvirt.NodeDevice.xml',

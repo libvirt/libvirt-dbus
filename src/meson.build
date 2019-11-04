@@ -16,6 +16,7 @@ exe_libvirt_dbus = executable(
     [
         'connect.c',
         'domain.c',
+        'domainsnapshot.c',
         'events.c',
         'gdbus.c',
         'interface.c',

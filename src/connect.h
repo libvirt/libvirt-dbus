@@ -13,6 +13,7 @@ struct virtDBusConnect {
     const gchar *uri;
     const gchar *connectPath;
     gchar *domainPath;
+    gchar *domainSnapshotPath;
     gchar *interfacePath;
     gchar *networkPath;
     gchar *nodeDevPath;

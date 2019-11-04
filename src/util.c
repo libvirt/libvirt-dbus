@@ -3,6 +3,9 @@
 #include <libvirt/virterror.h>
 #include <string.h>
 
+/* result of strlen("_00000000_1111_2222_3333_444444444444") */
+#define VIRT_DBUS_UUID_LEN 37
+
 static const GDBusErrorEntry virtDBusUtilErrorEntries[] = {
     { VIRT_DBUS_ERROR_LIBVIRT, "org.libvirt.Error" },
 };
@@ -277,6 +280,56 @@ virtDBusUtilVirDomainListFree(virDomainPtr *domains)
         virDomainFree(domains[i]);
 
     g_free(domains);
+}
+
+virDomainSnapshotPtr
+virtDBusUtilVirDomainSnapshotFromBusPath(virConnectPtr connection,
+                                         const gchar *path,
+                                         const gchar *domainSnapshotPath)
+{
+    g_autofree gchar *uuidStr = NULL;
+    g_autofree gchar *snapshotName = NULL;
+    g_autoptr(virDomain) domain = NULL;
+    gsize prefixLen = strlen(domainSnapshotPath) + 1;
+    g_autofree gchar *tmp = g_strdup(path + prefixLen);
+
+    tmp[VIRT_DBUS_UUID_LEN] = 0;
+
+    uuidStr = virtDBusUtilDecodeUUID(tmp);
+    snapshotName = virtDBusUtilDecodeStr(tmp + VIRT_DBUS_UUID_LEN + 1);
+
+    domain = virDomainLookupByUUIDString(connection, uuidStr);
+
+    return virDomainSnapshotLookupByName(domain, snapshotName, 0);
+}
+
+gchar *
+virtDBusUtilBusPathForVirDomainSnapshot(virDomainPtr domain,
+                                        virDomainSnapshotPtr domainSnapshot,
+                                        const gchar *domainSnapshotPath)
+{
+    const gchar *snapshotName = NULL;
+    gchar uuidStr[VIR_UUID_STRING_BUFLEN] = "";
+    g_autofree const gchar *encodedDomainNameStr = NULL;
+    g_autofree const gchar *encodedSnapshotNameStr = NULL;
+
+    virDomainGetUUIDString(domain, uuidStr);
+
+    snapshotName = virDomainSnapshotGetName(domainSnapshot);
+    encodedDomainNameStr = virtDBusUtilEncodeUUID(uuidStr);
+    encodedSnapshotNameStr = virtDBusUtilEncodeStr(snapshotName);
+
+    return g_strdup_printf("%s/%s_%s", domainSnapshotPath,
+                           encodedDomainNameStr, encodedSnapshotNameStr);
+}
+
+void
+virtDBusUtilVirDomainSnapshotListFree(virDomainSnapshotPtr* domainSnapshots)
+{
+    for (gint i = 0; domainSnapshots[i] != NULL; i++)
+        virDomainSnapshotFree(domainSnapshots[i]);
+
+    g_free(domainSnapshots);
 }
 
 virInterfacePtr
