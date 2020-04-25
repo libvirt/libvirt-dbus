@@ -19,7 +19,7 @@ BuildRequires: meson >= %{meson_version}
 BuildRequires: glib2-devel >= %{glib2_version}
 BuildRequires: libvirt-devel >= %{libvirt_version}
 BuildRequires: libvirt-glib-devel >= %{libvirt_glib_version}
-BuildRequires: /usr/bin/pod2man
+BuildRequires: /usr/bin/rst2man
 
 Requires: dbus
 Requires: glib2 >= %{glib2_version}
