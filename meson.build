@@ -256,11 +256,11 @@ if git
     authors = run_command('tools/gen-authors.sh')
     configure_file(
         configuration: { 'contributorslist': authors.stdout() },
-        input: 'AUTHORS.in',
-        output: 'AUTHORS',
+        input: 'AUTHORS.rst.in',
+        output: 'AUTHORS.rst',
     )
 
-    foreach file : [ 'libvirt-dbus.spec', 'AUTHORS' ]
+    foreach file : [ 'libvirt-dbus.spec', 'AUTHORS.rst' ]
         meson.add_dist_script('tools/dist.sh', meson.build_root(), file)
     endforeach
 endif
