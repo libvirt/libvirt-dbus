@@ -50,7 +50,7 @@ getent passwd %{system_user} >/dev/null || \
 exit 0
 
 %files
-%doc README.md HACKING.md AUTHORS NEWS
+%doc AUTHORS NEWS
 %license COPYING
 %{_sbindir}/libvirt-dbus
 %{_datadir}/dbus-1/services/org.libvirt.service
