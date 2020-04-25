@@ -12,6 +12,7 @@ project(
 prefix = get_option('prefix')
 datadir = prefix / get_option('datadir')
 sbindir = prefix / get_option('sbindir')
+docdir = datadir / 'doc' / meson.project_name()
 
 opt_dirs = [
     'dbus_interfaces',
@@ -258,12 +259,29 @@ if git
         configuration: { 'contributorslist': authors.stdout() },
         input: 'AUTHORS.rst.in',
         output: 'AUTHORS.rst',
+        install_dir: docdir,
     )
 
     foreach file : [ 'libvirt-dbus.spec', 'AUTHORS.rst' ]
         meson.add_dist_script('tools/dist.sh', meson.build_root(), file)
     endforeach
 endif
+
+
+# Install documentation
+
+docs = [
+    'COPYING',
+    'NEWS.rst',
+]
+if not git
+    docs += ['AUTHORS.rst']
+endif
+
+install_data(
+    docs,
+    install_dir: docdir,
+)
 
 
 # Include sub-directories
