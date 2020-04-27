@@ -1,4 +1,4 @@
-prog_rst2man = find_program('rst2man')
+prog_rst2man = find_program('rst2man', 'rst2man.py', 'rst2man-3')
 
 configure_file(
     command: [prog_rst2man.path(), '@INPUT@', '@OUTPUT@'],
