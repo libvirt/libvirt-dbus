@@ -50,9 +50,7 @@ getent passwd %{system_user} >/dev/null || \
 exit 0
 
 %files
-%doc %{_docdir}/%{name}/AUTHORS.rst
-%doc %{_docdir}/%{name}/NEWS.rst
-%exclude %{_docdir}/%{name}/COPYING
+%doc AUTHORS.rst NEWS.rst
 %license COPYING
 %{_sbindir}/libvirt-dbus
 %{_datadir}/dbus-1/services/org.libvirt.service
