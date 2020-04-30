@@ -2,6 +2,21 @@
 libvirt-dbus releases
 =====================
 
+v1.4.0 (2020-05-01)
+===================
+
+* New features
+
+  - Support for all relevant domain snapshot APIs
+
+* Build-system changes
+
+  - Converted to meson/ninja build system
+
+* Documentation
+
+  - Everything was converted to reStructuredText
+
 v1.3.0 (2019-01-18)
 ===================
 
