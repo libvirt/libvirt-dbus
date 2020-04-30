@@ -36,7 +36,11 @@ Running from git repository
 
      ninja -C build test
 
-  The test tool requires python3, python3-pytest, python3-dbus and flake8.
+  The test tool requires these packages:
+
+  ::
+
+    python3, python3-pytest, python3-dbus, flake8, dbus-daemon
 
   It is possible to run only specific test using:
 
