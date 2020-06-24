@@ -63,7 +63,7 @@ virtDBusDomainSnapshotGetParent(GVariant *inArgs,
     g_autoptr(virDomainSnapshot) domainSnapshot = NULL;
     g_autoptr(virDomainSnapshot) parent = NULL;
     guint flags;
-    g_autoptr(virDomain) domain = NULL;
+    virDomainPtr domain = NULL;
     g_autofree gchar *parentPath = NULL;
 
     g_variant_get(inArgs, "(u)", &flags);
@@ -159,7 +159,7 @@ virtDBusDomainSnapshotListAllChildren(GVariant *inArgs,
     guint flags;
     GVariantBuilder builder;
     GVariant *gdomainSnapshots;
-    g_autoptr(virDomain) domain = NULL;
+    virDomainPtr domain = NULL;
 
     g_variant_get(inArgs, "(u)", &flags);
 
