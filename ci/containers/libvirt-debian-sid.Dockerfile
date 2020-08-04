@@ -12,6 +12,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
             ca-certificates \
             ccache \
             chrony \
+            cpanminus \
             dbus \
             flake8 \
             gcc \
@@ -37,13 +38,15 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
             python3-dbus \
             python3-docutils \
             python3-gi \
+            python3-pip \
             python3-pytest \
             python3-setuptools \
             python3-wheel \
             screen \
             strace \
             sudo \
-            vim && \
+            vim \
+            xz-utils && \
     apt-get autoremove -y && \
     apt-get autoclean -y && \
     sed -Ei 's,^# (en_US\.UTF-8 .*)$,\1,' /etc/locale.gen && \
