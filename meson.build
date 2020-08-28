@@ -12,6 +12,20 @@ project(
 prefix = get_option('prefix')
 datadir = prefix / get_option('datadir')
 sbindir = prefix / get_option('sbindir')
+if get_option('init_script') == 'check'
+    if find_program('systemctl', required: false).found()
+        init_script = 'systemd'
+    else
+        init_script = 'other'
+    endif
+else
+    init_script = get_option('init_script')
+endif
+if init_script == 'systemd'
+    systemd_dep = dependency('systemd')
+    systemd_user_unit_dir = systemd_dep.get_pkgconfig_variable('systemduserunitdir')
+    systemd_system_unit_dir = systemd_dep.get_pkgconfig_variable('systemdsystemunitdir')
+endif
 
 opt_dirs = [
     'dbus_interfaces',

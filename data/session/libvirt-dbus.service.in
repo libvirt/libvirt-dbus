@@ -1,0 +1,9 @@
+[Unit]
+Description=Libvirt DBus Service
+
+[Service]
+BusName=org.libvirt
+ExecStart=@sbindir@/libvirt-dbus --session
+
+[Install]
+Alias=org.libvirt.service

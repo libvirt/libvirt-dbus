@@ -40,7 +40,8 @@ This package provides D-Bus API for libvirt
 %autosetup
 
 %build
-%meson
+%meson \
+    -Dinit_script=systemd
 %meson_build
 
 %install
@@ -57,6 +58,8 @@ exit 0
 %doc AUTHORS.rst NEWS.rst
 %license COPYING
 %{_sbindir}/libvirt-dbus
+%{_unitdir}/libvirt-dbus.service
+%{_prefix}/lib/systemd/user/libvirt-dbus.service
 %{_datadir}/dbus-1/services/org.libvirt.service
 %{_datadir}/dbus-1/system-services/org.libvirt.service
 %{_datadir}/dbus-1/system.d/org.libvirt.conf

@@ -4,3 +4,4 @@ option('dbus_system_policies', type: 'string', value: 'dbus-1/system.d', descrip
 option('dbus_interfaces', type: 'string', value: 'dbus-1/interfaces', description: 'D-Bus interfaces directory')
 option('polkit_rules', type: 'string', value: 'polkit-1/rules.d', description: 'polkit rules directory')
 option('system_user', type: 'string', value: 'libvirtdbus', description: 'username to run system instance as')
+option('init_script', type: 'combo', choices: ['systemd', 'other', 'check'], value: 'check', description: 'Style of init script to install')
