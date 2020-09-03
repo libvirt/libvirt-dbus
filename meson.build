@@ -71,6 +71,7 @@ git = run_command('test', '-d', '.git').returncode() == 0
 # Configure options
 
 conf.set('SYSTEM_USER', get_option('system_user'))
+conf.set('UNIX_SOCKET_GROUP', get_option('unix_socket_group'))
 
 
 # Compile flags
