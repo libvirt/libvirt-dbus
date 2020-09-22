@@ -153,6 +153,13 @@ class TestDomain(libvirttest.BaseTestClass):
         assert domain.GetVcpus(0) == dbus.Int32(vcpus_expected)
 
     def test_domain_vcpu_pin_info(self):
+        # Test driver was broken in 6.6.0 accidentally depending
+        # on host CPU topology instead of its fake topology
+        obj = self.bus.get_object('org.libvirt', '/org/libvirt/Test')
+        ver = obj.Get('org.libvirt.Connect', "LibVersion", dbus_interface=dbus.PROPERTIES_IFACE)
+        if ver == 6006000:
+            return
+
         obj, domain = self.get_test_domain()
         pinInfo_expected = [
             [True, True, True, True, True, True, True, True],
