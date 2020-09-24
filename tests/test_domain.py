@@ -2,6 +2,7 @@
 
 import dbus
 import libvirttest
+import pytest
 import xmldata
 
 DBUS_EXCEPTION_MISSING_FUNCTION = 'this function is not supported by the connection driver'
@@ -158,7 +159,7 @@ class TestDomain(libvirttest.BaseTestClass):
         obj = self.bus.get_object('org.libvirt', '/org/libvirt/Test')
         ver = obj.Get('org.libvirt.Connect', "LibVersion", dbus_interface=dbus.PROPERTIES_IFACE)
         if ver == 6006000:
-            return
+            pytest.skip("CPU toploogy is broken in libvirt 6.6.0 test driver")
 
         obj, domain = self.get_test_domain()
         pinInfo_expected = [
