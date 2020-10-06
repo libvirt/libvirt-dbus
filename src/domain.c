@@ -456,7 +456,7 @@ virtDBusDomainBlockCommit(GVariant *inArgs,
     const gchar *disk;
     const gchar *base;
     const gchar *top;
-    gulong bandwidth;
+    guint64 bandwidth;
     guint flags;
 
     g_variant_get(inArgs, "(&s&s&stu)", &disk, &base, &top, &bandwidth, &flags);
@@ -539,7 +539,7 @@ virtDBusDomainBlockJobSetSpeed(GVariant *inArgs,
     virtDBusConnect *connect = userData;
     g_autoptr(virDomain) domain = NULL;
     const gchar *disk;
-    gulong bandwidth;
+    guint64 bandwidth;
     guint flags;
 
     g_variant_get(inArgs, "(&stu)", &disk, &bandwidth, &flags);
@@ -602,7 +602,7 @@ virtDBusDomainBlockPull(GVariant *inArgs,
     virtDBusConnect *connect = userData;
     g_autoptr(virDomain) domain = NULL;
     const gchar *disk;
-    gulong bandwidth;
+    guint64 bandwidth;
     guint flags;
 
     g_variant_get(inArgs, "(&stu)", &disk, &bandwidth, &flags);
@@ -628,7 +628,7 @@ virtDBusDomainBlockRebase(GVariant *inArgs,
     g_autoptr(virDomain) domain = NULL;
     const gchar *disk;
     const gchar *base;
-    gulong bandwidth;
+    guint64 bandwidth;
     guint flags;
 
     g_variant_get(inArgs, "(&s&stu)", &disk, &base, &bandwidth, &flags);
@@ -2184,7 +2184,7 @@ virtDBusDomainMigrateSetMaxSpeed(GVariant *inArgs,
 {
     virtDBusConnect *connect = userData;
     g_autoptr(virDomain) domain = NULL;
-    gulong bandwidth;
+    guint64 bandwidth;
     guint flags;
 
     g_variant_get(inArgs, "(tu)", &bandwidth, &flags);
@@ -2715,7 +2715,7 @@ virtDBusDomainSetMemory(GVariant *inArgs,
 {
     virtDBusConnect *connect = userData;
     g_autoptr(virDomain) domain = NULL;
-    gulong memory;
+    guint64 memory;
     guint flags;
 
     g_variant_get(inArgs, "(tu)", &memory, &flags);
