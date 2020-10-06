@@ -564,7 +564,7 @@ virtDBusDomainBlockPeek(GVariant *inArgs,
     virtDBusConnect *connect = userData;
     g_autoptr(virDomain) domain = NULL;
     const gchar *disk;
-    gulong offset;
+    guint64 offset;
     gsize size;
     guint flags;
     g_autofree guchar *buffer = NULL;
@@ -655,7 +655,7 @@ virtDBusDomainBlockResize(GVariant *inArgs,
     virtDBusConnect *connect = userData;
     g_autoptr(virDomain) domain = NULL;
     const gchar *disk;
-    gulong size;
+    guint64 size;
     guint flags;
 
     g_variant_get(inArgs, "(&stu)", &disk, &size, &flags);
@@ -894,7 +894,7 @@ virtDBusDomainFSTrim(GVariant *inArgs,
     virtDBusConnect *connect = userData;
     g_autoptr(virDomain) domain = NULL;
     const gchar *mountpoint;
-    gulong minimum;
+    guint64 minimum;
     guint flags;
 
     g_variant_get(inArgs, "(stu)", &mountpoint, &minimum, &flags);
@@ -2010,7 +2010,7 @@ virtDBusDomainMemoryPeek(GVariant *inArgs,
 {
     virtDBusConnect *connect = userData;
     g_autoptr(virDomain) domain = NULL;
-    gulong offset;
+    guint64 offset;
     gsize size;
     guint flags;
     g_autofree guchar *buffer = NULL;
@@ -2078,7 +2078,7 @@ virtDBusDomainMigrateGetCompressionCache(GVariant *inArgs,
 {
     virtDBusConnect *connect = userData;
     g_autoptr(virDomain) domain = NULL;
-    gulong cacheSize;
+    guint64 cacheSize;
     guint flags;
 
     g_variant_get(inArgs, "(u)", &flags);
@@ -2136,7 +2136,7 @@ virtDBusDomainMigrateSetCompressionCache(GVariant *inArgs,
 {
     virtDBusConnect *connect = userData;
     g_autoptr(virDomain) domain = NULL;
-    gulong cacheSize;
+    guint64 cacheSize;
     guint flags;
 
     g_variant_get(inArgs, "(tu)", &cacheSize, &flags);
@@ -2160,7 +2160,7 @@ virtDBusDomainMigrateSetMaxDowntime(GVariant *inArgs,
 {
     virtDBusConnect *connect = userData;
     g_autoptr(virDomain) domain = NULL;
-    gulong downtime;
+    guint64 downtime;
     guint flags;
 
     g_variant_get(inArgs, "(tu)", &downtime, &flags);
@@ -2949,7 +2949,7 @@ virtDBusDomainSetTime(GVariant *inArgs,
 {
     virtDBusConnect *connect = userData;
     g_autoptr(virDomain) domain = NULL;
-    gulong seconds;
+    guint64 seconds;
     guint nseconds;
     guint flags;
 
