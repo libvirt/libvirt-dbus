@@ -174,14 +174,16 @@ virtDBusConnectGetLibVersion(const gchar *objectPath G_GNUC_UNUSED,
                              GError **error)
 {
     virtDBusConnect *connect = userData;
-    gulong libVer;
+    gulong tmp;
+    guint64 libVer;
 
     if (!virtDBusConnectOpen(connect, error))
         return;
 
-    if (virConnectGetLibVersion(connect->connection, &libVer) < 0)
+    if (virConnectGetLibVersion(connect->connection, &tmp) < 0)
         return virtDBusUtilSetLastVirtError(error);
 
+    libVer = tmp;
     *value = g_variant_new("t", libVer);
 }
 
@@ -211,14 +213,16 @@ virtDBusConnectGetVersion(const gchar *objectPath G_GNUC_UNUSED,
                           GError **error)
 {
     virtDBusConnect *connect = userData;
-    gulong hvVer;
+    gulong tmp;
+    guint64 hvVer;
 
     if (!virtDBusConnectOpen(connect, error))
         return;
 
-    if (virConnectGetVersion(connect->connection, &hvVer) < 0)
+    if (virConnectGetVersion(connect->connection, &tmp) < 0)
         return virtDBusUtilSetLastVirtError(error);
 
+    hvVer = tmp;
     *value = g_variant_new("t", hvVer);
 }
 

@@ -2108,7 +2108,8 @@ virtDBusDomainMigrateGetMaxSpeed(GVariant *inArgs,
 {
     virtDBusConnect *connect = userData;
     g_autoptr(virDomain) domain = NULL;
-    gulong bandwidth;
+    gulong tmp;
+    guint64 bandwidth;
     guint flags;
 
     g_variant_get(inArgs, "(u)", &flags);
@@ -2117,8 +2118,9 @@ virtDBusDomainMigrateGetMaxSpeed(GVariant *inArgs,
     if (!domain)
         return;
 
-    if (virDomainMigrateGetMaxSpeed(domain, &bandwidth, flags) < 0)
+    if (virDomainMigrateGetMaxSpeed(domain, &tmp, flags) < 0)
         return virtDBusUtilSetLastVirtError(error);
+    bandwidth = tmp;
 
     *outArgs = g_variant_new("(t)", bandwidth);
 }
