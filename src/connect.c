@@ -1171,7 +1171,7 @@ virtDBusConnectNetworkCreateXML(GVariant *inArgs,
     if (!network)
         return virtDBusUtilSetLastVirtError(error);
 
-    path = virtDBusUtilBusPathForVirNetwork(network, connect->domainPath);
+    path = virtDBusUtilBusPathForVirNetwork(network, connect->networkPath);
 
     *outArgs = g_variant_new("(o)", path);
 }
