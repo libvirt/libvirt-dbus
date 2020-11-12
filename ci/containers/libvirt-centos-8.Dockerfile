@@ -2,6 +2,7 @@ FROM centos:8
 
 RUN dnf install 'dnf-command(config-manager)' -y && \
     dnf config-manager --set-enabled -y PowerTools && \
+    dnf install -y centos-release-advanced-virtualization && \
     dnf install -y epel-release && \
     dnf update -y && \
     dnf install -y \
@@ -21,15 +22,9 @@ RUN dnf install 'dnf-command(config-manager)' -y && \
         glib2-devel \
         glibc-devel \
         glibc-langpack-en \
-        gnutls-devel \
-        gobject-introspection-devel \
-        gtk-doc \
-        libnl3-devel \
-        libtirpc-devel \
         libtool \
-        libxml2 \
-        libxml2-devel \
-        libxslt \
+        libvirt-devel \
+        libvirt-gobject-devel \
         lsof \
         make \
         net-tools \
@@ -47,12 +42,10 @@ RUN dnf install 'dnf-command(config-manager)' -y && \
         python3-pytest \
         python3-setuptools \
         python3-wheel \
-        rpcgen \
         rpm-build \
         screen \
         strace \
         sudo \
-        vala \
         vim \
         xz && \
     dnf autoremove -y && \

@@ -176,8 +176,8 @@ x64-centos-7-dist-build:
     TESTS: skip
     RPM: skip
 
-x64-centos-8-git-build:
-  <<: *git_native_build_job_definition
+x64-centos-8-dist-build:
+  <<: *dist_native_build_job_definition
   needs:
     - x64-centos-8-container
   variables:

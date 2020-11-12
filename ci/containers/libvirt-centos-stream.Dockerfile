@@ -3,6 +3,7 @@ FROM centos:8
 RUN dnf install -y centos-release-stream && \
     dnf install 'dnf-command(config-manager)' -y && \
     dnf config-manager --set-enabled -y Stream-PowerTools && \
+    dnf install -y centos-release-advanced-virtualization && \
     dnf install -y epel-release && \
     dnf update -y && \
     dnf install -y \
