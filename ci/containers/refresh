@@ -32,6 +32,6 @@ do
     if test "$host" = "libvirt-debian-9" ||
        test "$host" = "libvirt-ubuntu-1804"
     then
-	sed -i -e 's/libvirt-dev/libvirt-dev libvirt-daemon/' $host.Dockerfile
+        sed -i -e 's/libvirt-dev/libvirt-dev libvirt-daemon/' $host.Dockerfile
     fi
 done
