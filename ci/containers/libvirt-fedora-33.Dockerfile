@@ -1,30 +1,22 @@
-FROM fedora:31
+FROM registry.fedoraproject.org/fedora:33
 
 RUN dnf update -y && \
     dnf install -y \
-        autoconf \
-        automake \
         bash \
         bash-completion \
         ca-certificates \
         ccache \
-        chrony \
-        cppi \
         dbus-daemon \
         gcc \
-        gdb \
         gettext \
-        gettext-devel \
         git \
         glib2-devel \
         glibc-devel \
         glibc-langpack-en \
-        libtool \
         libvirt-devel \
         libvirt-gobject-devel \
-        lsof \
         make \
-        net-tools \
+        meson \
         ninja-build \
         patch \
         perl \
@@ -39,20 +31,12 @@ RUN dnf update -y && \
         python3-pytest \
         python3-setuptools \
         python3-wheel \
-        rpm-build \
-        screen \
-        strace \
-        sudo \
-        vim \
-        xz && \
+        rpm-build && \
     dnf autoremove -y && \
     dnf clean all -y && \
     mkdir -p /usr/libexec/ccache-wrappers && \
     ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/cc && \
     ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/$(basename /usr/bin/gcc)
-
-RUN pip3 install \
-         meson==0.54.0
 
 ENV LANG "en_US.UTF-8"
 

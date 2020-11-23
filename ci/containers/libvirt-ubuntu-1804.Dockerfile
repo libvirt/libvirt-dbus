@@ -1,34 +1,25 @@
-FROM ubuntu:18.04
+FROM docker.io/library/ubuntu:18.04
 
 RUN export DEBIAN_FRONTEND=noninteractive && \
     apt-get update && \
     apt-get dist-upgrade -y && \
     apt-get install --no-install-recommends -y \
-            autoconf \
-            automake \
-            autopoint \
             bash \
             bash-completion \
             ca-certificates \
             ccache \
-            chrony \
             cpanminus \
             dbus \
             flake8 \
             gcc \
-            gdb \
             gettext \
             git \
             libc6-dev \
             libglib2.0-dev \
-            libtool \
-            libtool-bin \
             libvirt-dev libvirt-daemon \
             libvirt-glib-1.0-dev \
             locales \
-            lsof \
             make \
-            net-tools \
             ninja-build \
             patch \
             perl \
@@ -40,12 +31,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
             python3-pip \
             python3-pytest \
             python3-setuptools \
-            python3-wheel \
-            screen \
-            strace \
-            sudo \
-            vim \
-            xz-utils && \
+            python3-wheel && \
     apt-get autoremove -y && \
     apt-get autoclean -y && \
     sed -Ei 's,^# (en_US\.UTF-8 .*)$,\1,' /etc/locale.gen && \
