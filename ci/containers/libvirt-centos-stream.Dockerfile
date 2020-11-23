@@ -9,8 +9,6 @@ RUN dnf install -y centos-release-stream && \
     dnf install -y \
         autoconf \
         automake \
-        bash \
-        bash-completion \
         ca-certificates \
         ccache \
         dbus \
@@ -32,9 +30,7 @@ RUN dnf install -y centos-release-stream && \
         libxslt \
         make \
         ninja-build \
-        patch \
         perl \
-        perl-App-cpanminus \
         pkgconfig \
         python3 \
         python3-dbus \
@@ -58,9 +54,7 @@ RUN pip3 install \
          meson==0.54.0
 
 ENV LANG "en_US.UTF-8"
-
 ENV MAKE "/usr/bin/make"
 ENV NINJA "/usr/bin/ninja"
 ENV PYTHON "/usr/bin/python3"
-
 ENV CCACHE_WRAPPERSDIR "/usr/libexec/ccache-wrappers"
