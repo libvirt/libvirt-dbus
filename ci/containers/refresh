@@ -18,19 +18,19 @@ HOSTS=$($LCITOOL hosts | grep -v -E '(freebsd|macos)')
 
 for host in $HOSTS
 do
-    if test "$host" = "libvirt-centos-stream"
+    if test "$host" = "centos-stream"
     then
-        $LCITOOL dockerfile $host libvirt+minimal,libvirt-glib,libvirt-dbus > $host.Dockerfile
+        $LCITOOL dockerfile $host libvirt+minimal,libvirt-glib,libvirt-dbus > ci-$host.Dockerfile
     else
-        $LCITOOL dockerfile $host libvirt+dist,libvirt-glib+dist,libvirt-dbus > $host.Dockerfile
+        $LCITOOL dockerfile $host libvirt+dist,libvirt-glib+dist,libvirt-dbus > ci-$host.Dockerfile
     fi
 
     # These distros versions shipped the cpu_map.xml file in
     # the wrong package, so we need to pull libvirt-daemon
     # to make sure tests pass.
-    if test "$host" = "libvirt-debian-9" ||
-       test "$host" = "libvirt-ubuntu-1804"
+    if test "$host" = "debian-9" ||
+       test "$host" = "ubuntu-1804"
     then
-        sed -i -e 's/libvirt-dev/libvirt-dev libvirt-daemon/' $host.Dockerfile
+        sed -i -e 's/libvirt-dev/libvirt-dev libvirt-daemon/' ci-$host.Dockerfile
     fi
 done
