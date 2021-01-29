@@ -53,11 +53,9 @@ stages:
     - cd libvirt
     - meson build -Ddriver_libvirtd=disabled "--prefix=$VROOT" "--libdir=$LIBDIR"
     - ninja -C build install
-    - cd ..
-    - mkdir libvirt-glib/build
-    - cd libvirt-glib/build
-    - ../autogen.sh --prefix="$VROOT"
-    - $MAKE install
+    - cd ../libvirt-glib
+    - meson build "--prefix=$VROOT" "--libdir=$LIBDIR"
+    - ninja -C build install
     - popd
     - meson build --prefix="$VROOT"
     - $NINJA -C build
