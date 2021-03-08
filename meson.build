@@ -220,7 +220,8 @@ warn_flags = [
 cc_flags = []
 if get_option('warning_level') == '2'
     cc_flags += warn_flags
-    if git
+    git_werror = get_option('git_werror')
+    if (git_werror.enabled() or git_werror.auto()) and git and not get_option('werror')
         cc_flags += ['-Werror']
     endif
 
