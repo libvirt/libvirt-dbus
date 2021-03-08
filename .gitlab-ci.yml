@@ -57,7 +57,7 @@ stages:
     - meson build "--prefix=$VROOT" "--libdir=$LIBDIR"
     - ninja -C build install
     - popd
-    - meson build --prefix="$VROOT"
+    - meson build --fatal-meson-warnings -Dwerror=true --prefix="$VROOT"
     - $NINJA -C build
     - $NINJA -C build install;
     - if test "$TESTS" != "skip";
@@ -80,7 +80,7 @@ stages:
   before_script:
     - *script_variables
   script:
-    - meson build --prefix="$VROOT"
+    - meson build --fatal-meson-warnings -Dwerror=true --prefix="$VROOT"
     - $NINJA -C build
     - $NINJA -C build install;
     - if test "$TESTS" != "skip";
