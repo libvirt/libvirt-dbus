@@ -6,6 +6,7 @@ project(
     default_options: [
         'buildtype=debugoptimized',
         'c_std=gnu99',
+        'warning_level=2',
     ],
 )
 
@@ -80,11 +81,9 @@ common_flags = [
     '-DVIRT_DBUS_INTERFACES_DIR="@0@"'.format(dbus_interfaces_dir),
 ]
 
-cc_flags = [
-    '-W',
+warn_flags = [
     '-Waddress',
     '-Waggressive-loop-optimizations',
-    '-Wall',
     '-Warray-bounds=2',
     '-Wattributes',
     '-Wbad-function-cast',
@@ -107,7 +106,6 @@ cc_flags = [
     '-Wduplicated-cond',
     '-Wempty-body',
     '-Wendif-labels',
-    '-Wextra',
     '-Wformat',
     '-Wformat-contains-nul',
     '-Wformat-extra-args',
@@ -218,23 +216,30 @@ cc_flags = [
     '-fipa-pure-const',
     '-fno-common',
 ]
+
+cc_flags = []
+if get_option('warning_level') == '2'
+    cc_flags += warn_flags
+    if git
+        cc_flags += ['-Werror']
+    endif
+
+    if host_machine.cpu_family() != 'aarch64'
+        if host_machine.system() == 'linux'
+            cc_flags += ['-fstack-protector-strong']
+        endif
+        if host_machine.system() == 'freebsd'
+            cc_flags += ['-fstack-protector']
+        endif
+    endif
+endif
+
 ld_flags = [
     '-Wl,-z,now',
     '-Wl,-z,relro',
 ]
 
-if git
-    cc_flags += ['-Werror']
-endif
 
-if host_machine.cpu_family() != 'aarch64'
-    if host_machine.system() == 'linux'
-        cc_flags += ['-fstack-protector-strong']
-    endif
-    if host_machine.system() == 'freebsd'
-        cc_flags += ['-fstack-protector']
-    endif
-endif
 
 if host_machine.system() not in ['cygwin', 'windows']
     cc_flags += ['-fPIE', '-DPIE']
