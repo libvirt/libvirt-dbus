@@ -65,6 +65,19 @@ Running from git repository
      ./run ./src/libvirt-dbus
 
 
+Downstream package maintainers
+==============================
+
+* It is possible to run the test suite directly for installed libvirt-dbus
+  by using the following commands:
+
+  ::
+
+     cd tests && TEST_INSTALLED=1 pytest
+
+  This is intended only for downstream testing process integration.
+
+
 Coding style rules
 ==================
 

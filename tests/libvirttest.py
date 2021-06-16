@@ -13,6 +13,8 @@ import xmldata
 root = os.environ.get('abs_top_builddir')
 if root:
     exe = os.path.join(root, 'src', 'libvirt-dbus')
+elif os.environ.get('TEST_INSTALLED') == '1':
+    exe = 'libvirt-dbus'
 else:
     raise Exception('To run tests use "meson tests" or "run" helper.')
 
