@@ -2,6 +2,27 @@
 libvirt-dbus releases
 =====================
 
+
+v1.4.1 (2021-06-28)
+===================
+
+* Improvements
+
+  - Generate systemd unit files
+
+* Bug fixes
+
+  - Fix double free in domain snapshot API
+
+  - Handle APIs with unsigned long correctly
+
+* Build-system improvements
+
+  - Honour meson ``warning_level`` setting
+
+  - Add ``git_werror`` option and only set if ``-Dwerror`` is not set
+
+
 v1.4.0 (2020-05-01)
 ===================
 
