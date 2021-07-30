@@ -1,9 +1,10 @@
 # THIS FILE WAS AUTO-GENERATED
 #
-#  $ lcitool dockerfile opensuse-151 libvirt+dist,libvirt-glib+dist,libvirt-dbus
+#  $ lcitool manifest ci/manifest.yml
 #
-# https://gitlab.com/libvirt/libvirt-ci/-/commit/b098ec6631a85880f818f2dd25c437d509e53680
-FROM registry.opensuse.org/opensuse/leap:15.1
+# https://gitlab.com/libvirt/libvirt-ci
+
+FROM registry.opensuse.org/opensuse/leap:15.2
 
 RUN zypper update -y && \
     zypper install -y \
@@ -19,7 +20,7 @@ RUN zypper update -y && \
            make \
            ninja \
            pkgconfig \
-           python3 \
+           python3-base \
            python3-dbus-python \
            python3-docutils \
            python3-flake8 \
@@ -33,10 +34,10 @@ RUN zypper update -y && \
     rpm -qa | sort > /packages.txt && \
     mkdir -p /usr/libexec/ccache-wrappers && \
     ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/cc && \
-    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/$(basename /usr/bin/gcc)
+    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/gcc
 
 RUN pip3 install \
-         meson==0.54.0
+         meson==0.56.0
 
 ENV LANG "en_US.UTF-8"
 ENV MAKE "/usr/bin/make"

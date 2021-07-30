@@ -1,27 +1,8 @@
 
 stages:
-  - prebuild
   - containers
   - builds
-
-.container_job_template: &container_job_definition
-  image: docker:stable
-  stage: containers
-  needs: []
-  services:
-    - name: registry.gitlab.com/libvirt/libvirt-ci/docker-dind:master
-      alias: docker
-  before_script:
-    - export TAG="$CI_REGISTRY_IMAGE/ci-$NAME:latest"
-    - export COMMON_TAG="$CI_REGISTRY/libvirt/libvirt-dbus/ci-$NAME:latest"
-    - docker info
-    - docker login registry.gitlab.com -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD"
-  script:
-    - docker pull "$TAG" || docker pull "$COMMON_TAG" || true
-    - docker build --cache-from "$TAG" --cache-from "$COMMON_TAG" --tag "$TAG" -f "ci/containers/ci-$NAME.Dockerfile" ci
-    - docker push "$TAG"
-  after_script:
-    - docker logout
+  - sanity_checks
 
 .script_variables: &script_variables |
   export MAKEFLAGS="-j$(getconf _NPROCESSORS_ONLN)"
@@ -36,9 +17,8 @@ stages:
   export XDG_DATA_DIRS="$VROOT/share:/usr/share"
   export GI_TYPELIB_PATH="$LIBDIR/girepository-1.0"
 
-.git_native_build_job_template: &git_native_build_job_definition
-  image: $CI_REGISTRY_IMAGE/ci-$NAME:latest
-  stage: builds
+.native_git_build_job:
+  extends: .gitlab_native_build_job
   cache:
     paths:
       - ccache/
@@ -71,9 +51,8 @@ stages:
         rpmbuild --nodeps -ta build/meson-dist/libvirt-dbus*.tar.xz;
       fi
 
-.dist_native_build_job_template: &dist_native_build_job_definition
-  image: $CI_REGISTRY_IMAGE/ci-$NAME:latest
-  stage: builds
+.native_build_job:
+  extends: .gitlab_native_build_job
   cache:
     paths:
       - ccache/
@@ -94,156 +73,15 @@ stages:
         rpmbuild --nodeps -ta build/meson-dist/libvirt-dbus*.tar.xz;
       fi
 
-
-# Check that all commits are signed-off for the DCO.
-# Skip on "libvirt" namespace, since we only need to run
-# this test on developer's personal forks from which
-# merge requests are submitted
-check-dco:
-  stage: prebuild
-  image: registry.gitlab.com/libvirt/libvirt-ci/check-dco:master
-  needs: []
-  script:
-    - /check-dco
-  except:
-    variables:
-      - $CI_PROJECT_NAMESPACE == 'libvirt'
-
-
-x64-centos-8-container:
-  <<: *container_job_definition
-  variables:
-    NAME: centos-8
-
-x64-centos-stream-container:
-  <<: *container_job_definition
-  variables:
-    NAME: centos-stream
-
-x64-debian-10-container:
-  <<: *container_job_definition
-  variables:
-    NAME: debian-10
-
-x64-debian-sid-container:
-  <<: *container_job_definition
-  variables:
-    NAME: debian-sid
-
-x64-fedora-32-container:
-  <<: *container_job_definition
-  variables:
-    NAME: fedora-32
-
-x64-fedora-33-container:
-  <<: *container_job_definition
-  variables:
-    NAME: fedora-33
-
-x64-fedora-rawhide-container:
-  <<: *container_job_definition
-  variables:
-    NAME: fedora-rawhide
-
-x64-opensuse-151-container:
-  <<: *container_job_definition
-  variables:
-    NAME: opensuse-151
-
-x64-ubuntu-1804-container:
-  <<: *container_job_definition
-  variables:
-    NAME: ubuntu-1804
-
-x64-ubuntu-2004-container:
-  <<: *container_job_definition
-  variables:
-    NAME: ubuntu-2004
-
-
-
-x64-centos-8-dist-build:
-  <<: *dist_native_build_job_definition
-  needs:
-    - x64-centos-8-container
-  variables:
-    NAME: centos-8
-    RPM: skip
-
-x64-centos-stream-git-build:
-  <<: *git_native_build_job_definition
-  needs:
-    - x64-centos-stream-container
-  variables:
-    NAME: centos-stream
-    RPM: skip
-
-x64-debian-10-dist-build:
-  <<: *dist_native_build_job_definition
-  needs:
-    - x64-debian-10-container
-  variables:
-    NAME: debian-10
-
-x64-debian-sid-dist-build:
-  <<: *dist_native_build_job_definition
-  needs:
-    - x64-debian-sid-container
-  variables:
-    NAME: debian-sid
-
-x64-fedora-32-dist-build:
-  <<: *dist_native_build_job_definition
-  needs:
-    - x64-fedora-32-container
-  variables:
-    NAME: fedora-32
-    RPM: skip
-
-x64-fedora-33-dist-build:
-  <<: *dist_native_build_job_definition
-  needs:
-    - x64-fedora-33-container
-  variables:
-    NAME: fedora-33
-
-x64-fedora-rawhide-dist-build:
-  <<: *dist_native_build_job_definition
-  needs:
-    - x64-fedora-rawhide-container
-  variables:
-    NAME: fedora-rawhide
-
-x64-opensuse-151-dist-build:
-  <<: *dist_native_build_job_definition
-  needs:
-    - x64-opensuse-151-container
-  variables:
-    NAME: opensuse-151
-    RPM: skip
-
-x64-ubuntu-1804-dist-build:
-  <<: *dist_native_build_job_definition
-  needs:
-    - x64-ubuntu-1804-container
-  variables:
-    NAME: ubuntu-1804
-    TESTS: skip
-
-x64-ubuntu-2004-dist-build:
-  <<: *dist_native_build_job_definition
-  needs:
-    - x64-ubuntu-2004-container
-  variables:
-    NAME: ubuntu-2004
-
+include: '/ci/gitlab.yml'
 
 # Coverity job that is run only by schedules
 coverity:
-  image: $CI_REGISTRY_IMAGE/ci-centos-8:latest
+  extends: .gitlab_native_build_job
+  variables:
+    NAME: centos-8
   needs:
-    - x64-centos-8-container
-  stage: builds
+    - x86_64-centos-8-container
   script:
     - curl https://scan.coverity.com/download/linux64 --form project=$COVERITY_SCAN_PROJECT_NAME --form token=$COVERITY_SCAN_TOKEN -o /tmp/cov-analysis-linux64.tgz
     - tar xfz /tmp/cov-analysis-linux64.tgz

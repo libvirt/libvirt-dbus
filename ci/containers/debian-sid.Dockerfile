@@ -1,9 +1,10 @@
 # THIS FILE WAS AUTO-GENERATED
 #
-#  $ lcitool dockerfile debian-10 libvirt+dist,libvirt-glib+dist,libvirt-dbus
+#  $ lcitool manifest ci/manifest.yml
 #
-# https://gitlab.com/libvirt/libvirt-ci/-/commit/b098ec6631a85880f818f2dd25c437d509e53680
-FROM docker.io/library/debian:10-slim
+# https://gitlab.com/libvirt/libvirt-ci
+
+FROM docker.io/library/debian:sid-slim
 
 RUN export DEBIAN_FRONTEND=noninteractive && \
     apt-get update && \
@@ -21,16 +22,14 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
             libvirt-glib-1.0-dev \
             locales \
             make \
+            meson \
             ninja-build \
             pkgconf \
             python3 \
             python3-dbus \
             python3-docutils \
             python3-gi \
-            python3-pip \
-            python3-pytest \
-            python3-setuptools \
-            python3-wheel && \
+            python3-pytest && \
     eatmydata apt-get autoremove -y && \
     eatmydata apt-get autoclean -y && \
     sed -Ei 's,^# (en_US\.UTF-8 .*)$,\1,' /etc/locale.gen && \
@@ -38,10 +37,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     dpkg-query --showformat '${Package}_${Version}_${Architecture}\n' --show > /packages.txt && \
     mkdir -p /usr/libexec/ccache-wrappers && \
     ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/cc && \
-    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/$(basename /usr/bin/gcc)
-
-RUN pip3 install \
-         meson==0.54.0
+    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/gcc
 
 ENV LANG "en_US.UTF-8"
 ENV MAKE "/usr/bin/make"
