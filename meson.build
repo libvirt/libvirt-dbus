@@ -23,9 +23,9 @@ else
     init_script = get_option('init_script')
 endif
 if init_script == 'systemd'
-    systemd_dep = dependency('systemd')
-    systemd_user_unit_dir = systemd_dep.get_pkgconfig_variable('systemduserunitdir')
-    systemd_system_unit_dir = systemd_dep.get_pkgconfig_variable('systemdsystemunitdir')
+    systemd_base_unit_dir = prefix / 'lib' / 'systemd'
+    systemd_user_unit_dir = systemd_base_unit_dir / 'user'
+    systemd_system_unit_dir = systemd_base_unit_dir / 'system'
 endif
 
 opt_dirs = [
