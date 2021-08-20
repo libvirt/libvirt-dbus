@@ -17,7 +17,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
             gcc \
             git \
             libglib2.0-dev \
-            libvirt-dev libvirt-daemon \
+            libvirt-dev \
             libvirt-glib-1.0-dev \
             locales \
             make \

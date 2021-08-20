@@ -228,6 +228,7 @@ x64-ubuntu-1804-dist-build:
     - x64-ubuntu-1804-container
   variables:
     NAME: ubuntu-1804
+    TESTS: skip
 
 x64-ubuntu-2004-dist-build:
   <<: *dist_native_build_job_definition
