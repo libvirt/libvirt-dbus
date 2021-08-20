@@ -109,10 +109,6 @@ check-dco:
     variables:
       - $CI_PROJECT_NAMESPACE == 'libvirt'
 
-x64-centos-7-container:
-  <<: *container_job_definition
-  variables:
-    NAME: centos-7
 
 x64-centos-8-container:
   <<: *container_job_definition
@@ -165,15 +161,6 @@ x64-ubuntu-2004-container:
     NAME: ubuntu-2004
 
 
-
-x64-centos-7-dist-build:
-  <<: *dist_native_build_job_definition
-  needs:
-    - x64-centos-7-container
-  variables:
-    NAME: centos-7
-    TESTS: skip
-    RPM: skip
 
 x64-centos-8-dist-build:
   <<: *dist_native_build_job_definition
