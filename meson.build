@@ -66,7 +66,7 @@ conf.set('GLIB2_REQUIRED', glib2_version)
 conf.set('LIBVIRT_REQUIRED', libvirt_version)
 conf.set('LIBVIRT_GLIB_REQUIRED', libvirt_glib_version)
 
-git = run_command('test', '-d', '.git').returncode() == 0
+git = run_command('test', '-d', '.git', check: false).returncode() == 0
 
 
 # Configure options
@@ -262,7 +262,7 @@ configure_file(
     output: 'run',
     configuration: conf,
 )
-run_command('tools/fix-perm.sh', 'a+x', 'run')
+run_command('tools/fix-perm.sh', 'a+x', 'run', check: true)
 
 
 # Generate dist files
@@ -274,7 +274,7 @@ if git
         configuration: conf,
     )
 
-    authors = run_command('tools/gen-authors.sh')
+    authors = run_command('tools/gen-authors.sh', check: true)
     configure_file(
         configuration: { 'contributorslist': authors.stdout() },
         input: 'AUTHORS.rst.in',
