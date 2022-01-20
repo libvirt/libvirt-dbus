@@ -545,6 +545,32 @@ virtDBusEventsDomainDiskChange(virConnectPtr connection G_GNUC_UNUSED,
 }
 
 static gint
+virtDBusEventsDomainBlockThreshold(virConnectPtr connection G_GNUC_UNUSED,
+                                   virDomainPtr domain,
+                                   const gchar *device,
+                                   const gchar *devPath,
+                                   gint64 threshold,
+                                   gint64 excess,
+                                   gpointer opaque)
+{
+    virtDBusConnect *connect = opaque;
+    g_autofree gchar *path = NULL;
+
+    path = virtDBusUtilBusPathForVirDomain(domain, connect->domainPath);
+
+    g_dbus_connection_emit_signal(connect->bus,
+                                  NULL,
+                                  path,
+                                  VIRT_DBUS_DOMAIN_INTERFACE,
+                                  "BlockThreshold",
+                                  g_variant_new("(sstt)", device, devPath,
+                                                threshold, excess),
+                                  NULL);
+
+    return 0;
+}
+
+static gint
 virtDBusEventsNetworkEvent(virConnectPtr connection G_GNUC_UNUSED,
                            virNetworkPtr network,
                            gint event,
@@ -824,6 +850,10 @@ virtDBusEventsRegister(virtDBusConnect *connect)
     virtDBusEventsRegisterDomainEvent(connect,
                                       VIR_DOMAIN_EVENT_ID_WATCHDOG,
                                       VIR_DOMAIN_EVENT_CALLBACK(virtDBusEventsDomainWatchdog));
+
+    virtDBusEventsRegisterDomainEvent(connect,
+                                      VIR_DOMAIN_EVENT_ID_BLOCK_THRESHOLD,
+                                      VIR_DOMAIN_EVENT_CALLBACK(virtDBusEventsDomainBlockThreshold));                                      
 
     virtDBusEventsRegisterNetworkEvent(connect,
                                        VIR_NETWORK_EVENT_ID_LIFECYCLE,

@@ -946,6 +946,34 @@ virtDBusDomainGetBlockIOParameters(GVariant *inArgs,
 }
 
 static void
+virtDBusDomainGetBlockInfo(GVariant *inArgs,
+                           GUnixFDList *inFDs G_GNUC_UNUSED,
+                           const gchar *objectPath,
+                           gpointer userData,
+                           GVariant **outArgs,
+                           GUnixFDList **outFDs G_GNUC_UNUSED,
+                           GError **error)
+{
+    virtDBusConnect *connect = userData;
+    g_autoptr(virDomain) domain = NULL;
+    virDomainBlockInfo info;
+    const gchar *disk;
+    guint flags;
+    
+    g_variant_get(inArgs, "(&su)", &disk, &flags);
+
+    domain = virtDBusDomainGetVirDomain(connect, objectPath, error);
+    if (!domain)
+        return; 
+
+    if (virDomainGetBlockInfo(domain, disk, &info, flags) < 0)
+        return virtDBusUtilSetLastVirtError(error);  
+
+    *outArgs = g_variant_new("((ttt))", info.capacity, info.allocation, 
+                             info.physical);
+}
+
+static void
 virtDBusDomainGetBlockIOTune(GVariant *inArgs,
                              GUnixFDList *inFDs G_GNUC_UNUSED,
                              const gchar *objectPath,
@@ -2643,6 +2671,31 @@ virtDBusDomainSetBlockIOTune(GVariant *inArgs,
 }
 
 static void
+virtDBusDomainSetBlockThreshold(GVariant *inArgs,
+                                GUnixFDList *inFDs G_GNUC_UNUSED,
+                                const gchar *objectPath,
+                                gpointer userData,
+                                GVariant **outArgs G_GNUC_UNUSED,
+                                GUnixFDList **outFDs G_GNUC_UNUSED,
+                                GError **error)
+{
+    virtDBusConnect *connect = userData;
+    g_autoptr(virDomain) domain = NULL;
+    const gchar *dev;
+    guint64 threshold;
+    guint flags;
+
+    g_variant_get(inArgs, "(&stu)", &dev, &threshold, &flags);
+
+    domain = virtDBusDomainGetVirDomain(connect, objectPath, error);
+    if (!domain)
+        return;
+
+    if (virDomainSetBlockThreshold(domain, dev, threshold, flags) < 0)
+        virtDBusUtilSetLastVirtError(error);
+}
+
+static void
 virtDBusDomainSetGuestVcpus(GVariant *inArgs,
                             GUnixFDList *inFDs G_GNUC_UNUSED,
                             const gchar *objectPath,
@@ -3220,6 +3273,7 @@ static virtDBusGDBusMethodTable virtDBusDomainMethodTable[] = {
     { "FSThaw", virtDBusDomainFSThaw },
     { "FSTrim", virtDBusDomainFSTrim },
     { "GetBlockIOParameters", virtDBusDomainGetBlockIOParameters },
+    { "GetBlockInfo", virtDBusDomainGetBlockInfo },
     { "GetBlockIOTune", virtDBusDomainGetBlockIOTune },
     { "GetBlockJobInfo", virtDBusDomainGetBlockJobInfo },
     { "GetControlInfo", virtDBusDomainGetControlInfo },
@@ -3273,6 +3327,7 @@ static virtDBusGDBusMethodTable virtDBusDomainMethodTable[] = {
     { "SendProcessSignal", virtDBusDomainSendProcessSignal },
     { "SetBlockIOParameters", virtDBusDomainSetBlockIOParameters },
     { "SetBlockIOTune", virtDBusDomainSetBlockIOTune },
+    { "SetBlockThreshold", virtDBusDomainSetBlockThreshold },
     { "SetGuestVcpus", virtDBusDomainSetGuestVcpus },
     { "SetInterfaceParameters", virtDBusDomainSetInterfaceParameters },
     { "SetVcpus", virtDBusDomainSetVcpus },

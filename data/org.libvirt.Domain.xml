@@ -183,6 +183,13 @@
       <arg name="flags" type="u" direction="in"/>
       <arg name="BlkioParameters" type="a{sv}" direction="out"/>
     </method>
+    <method name="GetBlockInfo">
+      <annotation name="org.gtk.GDBus.DocString"
+        value="See https://libvirt.org/html/libvirt-libvirt-domain.html#virDomainGetBlockInfo"/>
+      <arg name="disk" type="s" direction="in"/>
+      <arg name="flags" type="u" direction="in"/>
+      <arg name="blockInfo" type="(ttt)" direction="out"/>
+    </method>
     <method name="GetBlockIOTune">
       <annotation name="org.gtk.GDBus.DocString"
         value="See https://libvirt.org/html/libvirt-libvirt-domain.html#virDomainGetBlockIoTune"/>
@@ -510,6 +517,13 @@
       <arg name="params" type="a{sv}" direction="in"/>
       <arg name="flags" type="u" direction="in"/>
     </method>
+    <method name="SetBlockThreshold">
+      <annotation name="org.gtk.GDBus.DocString"
+        value="See https://libvirt.org/html/libvirt-libvirt-domain.html#virDomainSetBlockThreshold"/>
+      <arg name="dev" type="s" direction="in"/>
+      <arg name="threshold" type="t" direction="in"/>
+      <arg name="flags" type="u" direction="in"/>
+    </method>
     <method name="SetGuestVcpus">
       <annotation name="org.gtk.GDBus.DocString"
           value="See https://libvirt.org/html/libvirt-libvirt-domain.html#virDomainSetGuestVcpus"/>
@@ -748,6 +762,14 @@
       <annotation name="org.gtk.GDBus.DocString"
         value="See https://libvirt.org/html/libvirt-libvirt-domain.html#virConnectDomainEventWatchdogCallback"/>
       <arg name="action" type="i"/>
+    </signal>
+    <signal name="BlockThreshold">
+      <annotation name="org.gtk.GDBus.DocString"
+        value="See https://libvirt.org/html/libvirt-libvirt-domain.html#virConnectDomainEventBlockThresholdCallback"/>
+      <arg name="device" type="s"/>
+      <arg name="devPath" type="s"/>
+      <arg name="threshold" type="t"/>
+      <arg name="excess" type="t"/>
     </signal>
   </interface>
 </node>
