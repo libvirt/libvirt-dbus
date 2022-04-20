@@ -57,13 +57,6 @@ x86_64-almalinux-8-container:
     NAME: almalinux-8
 
 
-x86_64-centos-8-container:
-  extends: .container_job
-  allow_failure: false
-  variables:
-    NAME: centos-8
-
-
 x86_64-centos-stream-8-container:
   extends: .container_job
   allow_failure: false
@@ -85,13 +78,6 @@ x86_64-debian-sid-container:
     NAME: debian-sid
 
 
-x86_64-fedora-33-container:
-  extends: .container_job
-  allow_failure: false
-  variables:
-    NAME: fedora-33
-
-
 x86_64-fedora-34-container:
   extends: .container_job
   allow_failure: false
@@ -106,25 +92,11 @@ x86_64-fedora-rawhide-container:
     NAME: fedora-rawhide
 
 
-x86_64-opensuse-leap-152-container:
-  extends: .container_job
-  allow_failure: false
-  variables:
-    NAME: opensuse-leap-152
-
-
 x86_64-opensuse-tumbleweed-container:
   extends: .container_job
   allow_failure: false
   variables:
     NAME: opensuse-tumbleweed
-
-
-x86_64-ubuntu-1804-container:
-  extends: .container_job
-  allow_failure: false
-  variables:
-    NAME: ubuntu-1804
 
 
 x86_64-ubuntu-2004-container:
@@ -143,16 +115,6 @@ x86_64-almalinux-8:
   allow_failure: false
   variables:
     NAME: almalinux-8
-
-
-x86_64-centos-8:
-  extends: .native_build_job
-  needs:
-    - x86_64-centos-8-container
-  allow_failure: false
-  variables:
-    NAME: centos-8
-    RPM: skip
 
 
 x86_64-centos-stream-8-git:
@@ -183,15 +145,6 @@ x86_64-debian-sid:
     NAME: debian-sid
 
 
-x86_64-fedora-33:
-  extends: .native_build_job
-  needs:
-    - x86_64-fedora-33-container
-  allow_failure: false
-  variables:
-    NAME: fedora-33
-
-
 x86_64-fedora-34:
   extends: .native_build_job
   needs:
@@ -210,16 +163,6 @@ x86_64-fedora-rawhide:
     NAME: fedora-rawhide
 
 
-x86_64-opensuse-leap-152:
-  extends: .native_build_job
-  needs:
-    - x86_64-opensuse-leap-152-container
-  allow_failure: false
-  variables:
-    NAME: opensuse-leap-152
-    RPM: skip
-
-
 x86_64-opensuse-tumbleweed:
   extends: .native_build_job
   needs:
@@ -228,16 +171,6 @@ x86_64-opensuse-tumbleweed:
   variables:
     NAME: opensuse-tumbleweed
     RPM: skip
-
-
-x86_64-ubuntu-1804:
-  extends: .native_build_job
-  needs:
-    - x86_64-ubuntu-1804-container
-  allow_failure: false
-  variables:
-    NAME: ubuntu-1804
-    TESTS: skip
 
 
 x86_64-ubuntu-2004:

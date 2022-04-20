@@ -11,12 +11,6 @@ targets:
 
   almalinux-8: x86_64
 
-  centos-8:
-    jobs:
-      - arch: x86_64
-        variables:
-          RPM: skip
-
   centos-stream-8:
     projects:
       - libvirt-dbus
@@ -34,29 +28,14 @@ targets:
 
   debian-sid: x86_64
 
-  fedora-33: x86_64
-
   fedora-34: x86_64
 
   fedora-rawhide: x86_64
-
-  opensuse-leap-152:
-    jobs:
-      - arch: x86_64
-        variables:
-          RPM: skip
 
   opensuse-tumbleweed:
     jobs:
       - arch: x86_64
         variables:
           RPM: skip
-
-  ubuntu-1804:
-    jobs:
-      - arch: x86_64
-        variables:
-          # Ships cpu_map.xml in wrong package breaking tests
-          TESTS: skip
 
   ubuntu-2004: x86_64
