@@ -21,8 +21,6 @@ targets:
       - arch: x86_64
         template: .native_git_build_job
         suffix: -git
-        variables:
-          RPM: skip
 
   debian-10: x86_64
 
