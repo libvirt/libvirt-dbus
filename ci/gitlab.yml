@@ -63,11 +63,25 @@ x86_64-centos-stream-8-container:
     NAME: centos-stream-8
 
 
+x86_64-centos-stream-9-container:
+  extends: .container_job
+  allow_failure: false
+  variables:
+    NAME: centos-stream-9
+
+
 x86_64-debian-10-container:
   extends: .container_job
   allow_failure: false
   variables:
     NAME: debian-10
+
+
+x86_64-debian-11-container:
+  extends: .container_job
+  allow_failure: false
+  variables:
+    NAME: debian-11
 
 
 x86_64-debian-sid-container:
@@ -84,11 +98,25 @@ x86_64-fedora-34-container:
     NAME: fedora-34
 
 
+x86_64-fedora-35-container:
+  extends: .container_job
+  allow_failure: false
+  variables:
+    NAME: fedora-35
+
+
 x86_64-fedora-rawhide-container:
   extends: .container_job
   allow_failure: false
   variables:
     NAME: fedora-rawhide
+
+
+x86_64-opensuse-leap-153-container:
+  extends: .container_job
+  allow_failure: false
+  variables:
+    NAME: opensuse-leap-153
 
 
 x86_64-opensuse-tumbleweed-container:
@@ -103,6 +131,13 @@ x86_64-ubuntu-2004-container:
   allow_failure: false
   variables:
     NAME: ubuntu-2004
+
+
+x86_64-ubuntu-2204-container:
+  extends: .container_job
+  allow_failure: false
+  variables:
+    NAME: ubuntu-2204
 
 
 # Native build jobs
@@ -125,6 +160,15 @@ x86_64-centos-stream-8-git:
     NAME: centos-stream-8
 
 
+x86_64-centos-stream-9-git:
+  extends: .native_git_build_job
+  needs:
+    - x86_64-centos-stream-9-container
+  allow_failure: false
+  variables:
+    NAME: centos-stream-9
+
+
 x86_64-debian-10:
   extends: .native_build_job
   needs:
@@ -132,6 +176,15 @@ x86_64-debian-10:
   allow_failure: false
   variables:
     NAME: debian-10
+
+
+x86_64-debian-11:
+  extends: .native_build_job
+  needs:
+    - x86_64-debian-11-container
+  allow_failure: false
+  variables:
+    NAME: debian-11
 
 
 x86_64-debian-sid:
@@ -152,6 +205,15 @@ x86_64-fedora-34:
     NAME: fedora-34
 
 
+x86_64-fedora-35:
+  extends: .native_build_job
+  needs:
+    - x86_64-fedora-35-container
+  allow_failure: false
+  variables:
+    NAME: fedora-35
+
+
 x86_64-fedora-rawhide:
   extends: .native_build_job
   needs:
@@ -159,6 +221,16 @@ x86_64-fedora-rawhide:
   allow_failure: false
   variables:
     NAME: fedora-rawhide
+
+
+x86_64-opensuse-leap-153:
+  extends: .native_build_job
+  needs:
+    - x86_64-opensuse-leap-153-container
+  allow_failure: false
+  variables:
+    NAME: opensuse-leap-153
+    RPM: skip
 
 
 x86_64-opensuse-tumbleweed:
@@ -178,3 +250,12 @@ x86_64-ubuntu-2004:
   allow_failure: false
   variables:
     NAME: ubuntu-2004
+
+
+x86_64-ubuntu-2204:
+  extends: .native_build_job
+  needs:
+    - x86_64-ubuntu-2204-container
+  allow_failure: false
+  variables:
+    NAME: ubuntu-2204
