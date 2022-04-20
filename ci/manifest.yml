@@ -8,6 +8,9 @@ gitlab:
   project: libvirt-dbus
 
 targets:
+
+  almalinux-8: x86_64
+
   centos-8:
     jobs:
       - arch: x86_64
