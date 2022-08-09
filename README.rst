@@ -13,7 +13,7 @@ API better suited for dbus-based applications.
 
 libvirt-dbus is Free Software and licenced under LGPLv2+.
 
-* https://libvirt.org/libvirt-dbus.html
+* https://www.libvirt.org/dbus.html
 
 The latest official releases can be found at:
 
