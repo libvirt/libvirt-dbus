@@ -11,6 +11,7 @@ RUN dnf distro-sync -y && \
     dnf config-manager --set-enabled -y powertools && \
     dnf install -y centos-release-advanced-virtualization && \
     dnf install -y epel-release && \
+    dnf install -y epel-next-release && \
     dnf install -y \
         ca-certificates \
         ccache \
@@ -43,6 +44,7 @@ RUN dnf distro-sync -y && \
         python3-pytest \
         rpcgen \
         rpm-build \
+        systemd-rpm-macros \
         vala && \
     dnf autoremove -y && \
     dnf clean all -y && \

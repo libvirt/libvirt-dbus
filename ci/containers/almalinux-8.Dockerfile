@@ -31,7 +31,8 @@ RUN dnf update -y && \
         python3-flake8 \
         python3-gobject \
         python3-pytest \
-        rpm-build && \
+        rpm-build \
+        systemd-rpm-macros && \
     dnf autoremove -y && \
     dnf clean all -y && \
     rpm -qa | sort > /packages.txt && \

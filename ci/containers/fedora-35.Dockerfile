@@ -37,7 +37,8 @@ exec "$@"' > /usr/bin/nosync && \
         python3-flake8 \
         python3-gobject \
         python3-pytest \
-        rpm-build && \
+        rpm-build \
+        systemd-rpm-macros && \
     nosync dnf autoremove -y && \
     nosync dnf clean all -y && \
     rpm -qa | sort > /packages.txt && \

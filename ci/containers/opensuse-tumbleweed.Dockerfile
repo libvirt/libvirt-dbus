@@ -27,7 +27,8 @@ RUN zypper dist-upgrade -y && \
            python3-flake8 \
            python3-gobject \
            python3-pytest \
-           rpm-build && \
+           rpm-build \
+           systemd-rpm-macros && \
     zypper clean --all && \
     rpm -qa | sort > /packages.txt && \
     mkdir -p /usr/libexec/ccache-wrappers && \

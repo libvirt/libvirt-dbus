@@ -29,14 +29,15 @@ RUN zypper update -y && \
            python3-pytest \
            python3-setuptools \
            python3-wheel \
-           rpm-build && \
+           rpm-build \
+           systemd-rpm-macros && \
     zypper clean --all && \
     rpm -qa | sort > /packages.txt && \
     mkdir -p /usr/libexec/ccache-wrappers && \
     ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/cc && \
     ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/gcc
 
-RUN pip3 install meson==0.56.0
+RUN /usr/bin/pip3 install meson==0.56.0
 
 ENV LANG "en_US.UTF-8"
 ENV MAKE "/usr/bin/make"
