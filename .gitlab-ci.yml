@@ -18,14 +18,12 @@ stages:
   export GI_TYPELIB_PATH="$LIBDIR/girepository-1.0"
 
 .native_git_build_job:
-  extends: .gitlab_native_build_job
   cache:
     paths:
       - ccache/
     key: "$CI_JOB_NAME"
-  before_script:
-    - *script_variables
   script:
+    - *script_variables
     - pushd "$PWD"
     - mkdir -p "$SCRATCH_DIR"
     - cd "$SCRATCH_DIR"
@@ -51,15 +49,23 @@ stages:
         rpmbuild --nodeps -ta build/meson-dist/libvirt-dbus*.tar.xz;
       fi
 
+.native_git_build_job_prebuilt_env:
+  extends:
+    - .native_git_build_job
+    - .gitlab_native_build_job_prebuilt_env
+
+.native_git_build_job_local_env:
+  extends:
+    - .native_git_build_job
+    - .gitlab_native_build_job_local_env
+
 .native_build_job:
-  extends: .gitlab_native_build_job
   cache:
     paths:
       - ccache/
     key: "$CI_JOB_NAME"
-  before_script:
-    - *script_variables
   script:
+    - *script_variables
     - meson build --fatal-meson-warnings -Dwerror=true --prefix="$VROOT"
     - $NINJA -C build
     - $NINJA -C build install;
@@ -73,16 +79,19 @@ stages:
         rpmbuild --nodeps -ta build/meson-dist/libvirt-dbus*.tar.xz;
       fi
 
+.native_build_job_prebuilt_env:
+  extends:
+    - .native_build_job
+    - .gitlab_native_build_job_prebuilt_env
+
+.native_build_job_local_env:
+  extends:
+    - .native_build_job
+    - .gitlab_native_build_job_local_env
+
 include: '/ci/gitlab.yml'
 
-# Coverity job that is run only by schedules
-coverity:
-  extends: .gitlab_native_build_job
-  variables:
-    NAME: almalinux-8
-  needs:
-    - job: x86_64-almalinux-8-container
-      optional: true
+.coverity:
   script:
     - curl https://scan.coverity.com/download/linux64 --form project=$COVERITY_SCAN_PROJECT_NAME --form token=$COVERITY_SCAN_TOKEN -o /tmp/cov-analysis-linux64.tgz
     - tar xfz /tmp/cov-analysis-linux64.tgz
@@ -91,4 +100,33 @@ coverity:
     - tar cfz cov-int.tar.gz cov-int
     - curl https://scan.coverity.com/builds?project=$COVERITY_SCAN_PROJECT_NAME --form token=$COVERITY_SCAN_TOKEN --form email=$GITLAB_USER_EMAIL --form file=@cov-int.tar.gz --form version="$(git describe --tags)" --form description="$(git describe --tags) / $CI_COMMIT_TITLE / $CI_COMMIT_REF_NAME:$CI_PIPELINE_ID"
   rules:
-    - if: "$CI_PIPELINE_SOURCE == 'schedule' && $COVERITY_SCAN_PROJECT_NAME && $COVERITY_SCAN_TOKEN"
+    - if: '$CI_PIPELINE_SOURCE != "schedule"'
+      when: never
+    - if: '$COVERITY_SCAN_PROJECT_NAME == null || $COVERITY_SCAN_TOKEN == null'
+      when: never
+
+# Coverity job running on default branch
+coverity_prebuilt_env:
+  extends:
+    - .coverity
+    - .gitlab_native_build_job_prebuilt_env
+  needs:
+    - job: x86_64-almalinux-8-container
+      optional: true
+  variables:
+    NAME: almalinux-8
+  rules:
+    - !reference [.coverity, rules]
+    - !reference [.gitlab_native_build_job_prebuilt_env, rules]
+
+# Coverity job running on non-default branch
+coverity_local_env:
+  extends:
+    - .coverity
+    - .gitlab_native_build_job_local_env
+  variables:
+    IMAGE: docker.io/library/almalinux:8
+    NAME: almalinux-8
+  rules:
+    - !reference [.coverity, rules]
+    - !reference [.gitlab_native_build_job_local_env, rules]
