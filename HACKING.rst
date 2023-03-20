@@ -6,13 +6,11 @@ Here is where to get code:
 
 ::
 
-   $ git clone https://libvirt.org/git/libvirt-dbus.git
+   $ git clone https://gitlab.com/libvirt/libvirt-dbus
 
 Alternatively you can use one of the mirrors:
 
 https://github.com/libvirt/libvirt-dbus
-https://gitlab.com/libvirt/libvirt-dbus
-
 
 Running from git repository
 ===========================
