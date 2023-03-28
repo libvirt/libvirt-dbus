@@ -54,7 +54,7 @@ conf.set('source_root', meson.source_root())
 # Dependencies
 
 glib2_version = '2.44.0'
-libvirt_version = '3.0.0'
+libvirt_version = '3.1.0'
 libvirt_glib_version = '0.0.7'
 
 dep_gio_unix = dependency('gio-unix-2.0', version: '>=' + glib2_version)
