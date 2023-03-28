@@ -33,13 +33,9 @@ targets:
         template: .native_git_build_job
         suffix: -git
 
-  debian-10: x86_64
-
   debian-11: x86_64
 
   debian-sid: x86_64
-
-  fedora-35: x86_64
 
   fedora-36: x86_64
 

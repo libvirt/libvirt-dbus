@@ -61,24 +61,6 @@ x86_64-centos-stream-9-git-local-env:
     NAME: centos-stream-9
 
 
-x86_64-debian-10-prebuilt-env:
-  extends: .native_build_job_prebuilt_env
-  needs:
-    - job: x86_64-debian-10-container
-      optional: true
-  allow_failure: false
-  variables:
-    NAME: debian-10
-
-x86_64-debian-10-local-env:
-  extends: .native_build_job_local_env
-  needs: []
-  allow_failure: false
-  variables:
-    IMAGE: docker.io/library/debian:10-slim
-    NAME: debian-10
-
-
 x86_64-debian-11-prebuilt-env:
   extends: .native_build_job_prebuilt_env
   needs:
@@ -113,24 +95,6 @@ x86_64-debian-sid-local-env:
   variables:
     IMAGE: docker.io/library/debian:sid-slim
     NAME: debian-sid
-
-
-x86_64-fedora-35-prebuilt-env:
-  extends: .native_build_job_prebuilt_env
-  needs:
-    - job: x86_64-fedora-35-container
-      optional: true
-  allow_failure: false
-  variables:
-    NAME: fedora-35
-
-x86_64-fedora-35-local-env:
-  extends: .native_build_job_local_env
-  needs: []
-  allow_failure: false
-  variables:
-    IMAGE: registry.fedoraproject.org/fedora:35
-    NAME: fedora-35
 
 
 x86_64-fedora-36-prebuilt-env:
