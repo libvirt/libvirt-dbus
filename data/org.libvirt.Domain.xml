@@ -183,13 +183,6 @@
       <arg name="flags" type="u" direction="in"/>
       <arg name="BlkioParameters" type="a{sv}" direction="out"/>
     </method>
-    <method name="GetBlockInfo">
-      <annotation name="org.gtk.GDBus.DocString"
-        value="See https://libvirt.org/html/libvirt-libvirt-domain.html#virDomainGetBlockInfo"/>
-      <arg name="disk" type="s" direction="in"/>
-      <arg name="flags" type="u" direction="in"/>
-      <arg name="blockInfo" type="(ttt)" direction="out"/>
-    </method>
     <method name="GetBlockIOTune">
       <annotation name="org.gtk.GDBus.DocString"
         value="See https://libvirt.org/html/libvirt-libvirt-domain.html#virDomainGetBlockIoTune"/>

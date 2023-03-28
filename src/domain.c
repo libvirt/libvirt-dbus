@@ -946,34 +946,6 @@ virtDBusDomainGetBlockIOParameters(GVariant *inArgs,
 }
 
 static void
-virtDBusDomainGetBlockInfo(GVariant *inArgs,
-                           GUnixFDList *inFDs G_GNUC_UNUSED,
-                           const gchar *objectPath,
-                           gpointer userData,
-                           GVariant **outArgs,
-                           GUnixFDList **outFDs G_GNUC_UNUSED,
-                           GError **error)
-{
-    virtDBusConnect *connect = userData;
-    g_autoptr(virDomain) domain = NULL;
-    virDomainBlockInfo info;
-    const gchar *disk;
-    guint flags;
-    
-    g_variant_get(inArgs, "(&su)", &disk, &flags);
-
-    domain = virtDBusDomainGetVirDomain(connect, objectPath, error);
-    if (!domain)
-        return; 
-
-    if (virDomainGetBlockInfo(domain, disk, &info, flags) < 0)
-        return virtDBusUtilSetLastVirtError(error);  
-
-    *outArgs = g_variant_new("((ttt))", info.capacity, info.allocation, 
-                             info.physical);
-}
-
-static void
 virtDBusDomainGetBlockIOTune(GVariant *inArgs,
                              GUnixFDList *inFDs G_GNUC_UNUSED,
                              const gchar *objectPath,
@@ -3273,7 +3245,6 @@ static virtDBusGDBusMethodTable virtDBusDomainMethodTable[] = {
     { "FSThaw", virtDBusDomainFSThaw },
     { "FSTrim", virtDBusDomainFSTrim },
     { "GetBlockIOParameters", virtDBusDomainGetBlockIOParameters },
-    { "GetBlockInfo", virtDBusDomainGetBlockInfo },
     { "GetBlockIOTune", virtDBusDomainGetBlockIOTune },
     { "GetBlockJobInfo", virtDBusDomainGetBlockJobInfo },
     { "GetControlInfo", virtDBusDomainGetControlInfo },
