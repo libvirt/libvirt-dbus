@@ -17,6 +17,7 @@ function install_buildenv() {
            libvirt-devel \
            libvirt-glib-devel \
            make \
+           meson \
            ninja \
            pkgconfig \
            python3-base \
@@ -24,17 +25,13 @@ function install_buildenv() {
            python3-docutils \
            python3-flake8 \
            python3-gobject \
-           python3-pip \
            python3-pytest \
-           python3-setuptools \
-           python3-wheel \
            rpm-build \
            systemd-rpm-macros
     rpm -qa | sort > /packages.txt
     mkdir -p /usr/libexec/ccache-wrappers
     ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/cc
     ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/gcc
-    /usr/bin/pip3 install meson==0.56.0
 }
 
 export CCACHE_WRAPPERSDIR="/usr/libexec/ccache-wrappers"
