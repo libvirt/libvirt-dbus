@@ -853,7 +853,7 @@ virtDBusEventsRegister(virtDBusConnect *connect)
 
     virtDBusEventsRegisterDomainEvent(connect,
                                       VIR_DOMAIN_EVENT_ID_BLOCK_THRESHOLD,
-                                      VIR_DOMAIN_EVENT_CALLBACK(virtDBusEventsDomainBlockThreshold));                                      
+                                      VIR_DOMAIN_EVENT_CALLBACK(virtDBusEventsDomainBlockThreshold));
 
     virtDBusEventsRegisterNetworkEvent(connect,
                                        VIR_NETWORK_EVENT_ID_LIFECYCLE,
