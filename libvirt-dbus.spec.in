@@ -10,7 +10,7 @@ Name: @PACKAGE@
 Version: @VERSION@
 Release: 1%{?dist}
 Summary: libvirt D-Bus API binding
-License: LGPLv2+
+License: LGPL-2.1-or-later
 URL: https://libvirt.org/
 Source0: https://libvirt.org/sources/dbus/%{name}-%{version}.tar.xz
 
