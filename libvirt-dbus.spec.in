@@ -51,6 +51,18 @@ getent passwd %{system_user} >/dev/null || \
     -c "Libvirt D-Bus bridge" %{system_user}
 exit 0
 
+%post
+%systemd_post %{name}.service
+%systemd_user_post %{name}.service
+
+%preun
+%systemd_preun %{name}.service
+%systemd_user_preun %{name}.service
+
+%postun
+%systemd_postun_with_restart %{name}.service
+%systemd_user_postun_with_restart %{name}.service
+
 %files
 %doc AUTHORS.rst NEWS.rst
 %license COPYING
