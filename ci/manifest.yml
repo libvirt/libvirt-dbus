@@ -1,7 +1,7 @@
 projects:
   - libvirt-dbus
-  - libvirt+dist
-  - libvirt-glib+dist
+  - https://gitlab.com/libvirt/libvirt/-/raw/master/ci/lcitool/projects/libvirt+dist.yml
+  - https://gitlab.com/libvirt/libvirt-glib/-/raw/master/ci/lcitool/projects/libvirt-glib+dist.yml
 
 gitlab:
   namespace: libvirt
