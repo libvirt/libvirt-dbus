@@ -18,6 +18,8 @@ stages:
   export GI_TYPELIB_PATH="$LIBDIR/girepository-1.0"
 
 .native_git_build_job:
+  extends:
+    - .gitlab_native_build_job
   cache:
     paths:
       - ccache/
@@ -49,17 +51,9 @@ stages:
         rpmbuild --nodeps -ta build/meson-dist/libvirt-dbus*.tar.xz;
       fi
 
-.native_git_build_job_prebuilt_env:
-  extends:
-    - .native_git_build_job
-    - .gitlab_native_build_job_prebuilt_env
-
-.native_git_build_job_local_env:
-  extends:
-    - .native_git_build_job
-    - .gitlab_native_build_job_local_env
-
 .native_build_job:
+  extends:
+    - .gitlab_native_build_job
   cache:
     paths:
       - ccache/
@@ -79,19 +73,17 @@ stages:
         rpmbuild --nodeps -ta build/meson-dist/libvirt-dbus*.tar.xz;
       fi
 
-.native_build_job_prebuilt_env:
-  extends:
-    - .native_build_job
-    - .gitlab_native_build_job_prebuilt_env
-
-.native_build_job_local_env:
-  extends:
-    - .native_build_job
-    - .gitlab_native_build_job_local_env
-
 include: '/ci/gitlab.yml'
 
 .coverity:
+  extends:
+    - .gitlab_native_build_job
+  needs:
+    - job: x86_64-almalinux-8-container
+      optional: true
+  variables:
+    IMAGE: docker.io/library/almalinux:8
+    NAME: almalinux-8
   script:
     - curl https://scan.coverity.com/download/linux64 --form project=$COVERITY_SCAN_PROJECT_NAME --form token=$COVERITY_SCAN_TOKEN -o /tmp/cov-analysis-linux64.tgz
     - tar xfz /tmp/cov-analysis-linux64.tgz
@@ -104,29 +96,4 @@ include: '/ci/gitlab.yml'
       when: never
     - if: '$COVERITY_SCAN_PROJECT_NAME == null || $COVERITY_SCAN_TOKEN == null'
       when: never
-
-# Coverity job running on default branch
-coverity_prebuilt_env:
-  extends:
-    - .coverity
-    - .gitlab_native_build_job_prebuilt_env
-  needs:
-    - job: x86_64-almalinux-8-container
-      optional: true
-  variables:
-    NAME: almalinux-8
-  rules:
-    - !reference [.coverity, rules]
-    - !reference [.gitlab_native_build_job_prebuilt_env, rules]
-
-# Coverity job running on non-default branch
-coverity_local_env:
-  extends:
-    - .coverity
-    - .gitlab_native_build_job_local_env
-  variables:
-    IMAGE: docker.io/library/almalinux:8
-    NAME: almalinux-8
-  rules:
-    - !reference [.coverity, rules]
-    - !reference [.gitlab_native_build_job_local_env, rules]
+    - !reference [.gitlab_native_build_job, rules]

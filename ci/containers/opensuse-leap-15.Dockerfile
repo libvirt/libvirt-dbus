@@ -4,7 +4,7 @@
 #
 # https://gitlab.com/libvirt/libvirt-ci
 
-FROM registry.opensuse.org/opensuse/leap:15.4
+FROM registry.opensuse.org/opensuse/leap:15.5
 
 RUN zypper update -y && \
     zypper install -y \
@@ -30,6 +30,7 @@ RUN zypper update -y && \
            rpm-build \
            systemd-rpm-macros && \
     zypper clean --all && \
+    rm -f /usr/lib*/python3*/EXTERNALLY-MANAGED && \
     rpm -qa | sort > /packages.txt && \
     mkdir -p /usr/libexec/ccache-wrappers && \
     ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/cc && \

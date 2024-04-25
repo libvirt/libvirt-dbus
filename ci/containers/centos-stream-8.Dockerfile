@@ -42,12 +42,12 @@ RUN dnf distro-sync -y && \
         python3-flake8 \
         python3-gobject \
         python3-pytest \
-        rpcgen \
         rpm-build \
         systemd-rpm-macros \
         vala && \
     dnf autoremove -y && \
     dnf clean all -y && \
+    rm -f /usr/lib*/python3*/EXTERNALLY-MANAGED && \
     rpm -qa | sort > /packages.txt && \
     mkdir -p /usr/libexec/ccache-wrappers && \
     ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/cc && \
