@@ -14,6 +14,7 @@ function install_buildenv() {
         gcc \
         git \
         glib2-devel \
+        glibc-devel \
         glibc-langpack-en \
         libvirt-devel \
         libvirt-gobject-devel \

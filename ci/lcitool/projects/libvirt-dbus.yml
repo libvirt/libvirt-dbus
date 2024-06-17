@@ -5,6 +5,7 @@ packages:
   - flake8
   - gcc
   - glib2
+  - libc
   - make
   - meson
   - ninja

@@ -5,32 +5,30 @@
 # https://gitlab.com/libvirt/libvirt-ci
 
 function install_buildenv() {
-    dnf update -y
-    dnf install -y \
+    apk update
+    apk upgrade
+    apk add \
         ca-certificates \
         ccache \
-        dbus-daemon \
+        dbus \
         gcc \
         git \
-        glib2-devel \
-        glibc-devel \
-        glibc-langpack-en \
-        libvirt-devel \
-        libvirt-gobject-devel \
+        glib-dev \
+        libvirt-dev \
+        libvirt-glib-dev \
         make \
         meson \
-        ninja-build \
-        pkgconfig \
+        musl-dev \
+        pkgconf \
+        py3-dbus \
+        py3-docutils \
+        py3-flake8 \
+        py3-gobject3 \
+        py3-pytest \
         python3 \
-        python3-dbus \
-        python3-docutils \
-        python3-flake8 \
-        python3-gobject \
-        python3-pytest \
-        rpm-build \
-        systemd-rpm-macros
+        samurai
     rm -f /usr/lib*/python3*/EXTERNALLY-MANAGED
-    rpm -qa | sort > /packages.txt
+    apk list --installed | sort > /packages.txt
     mkdir -p /usr/libexec/ccache-wrappers
     ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/cc
     ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/gcc

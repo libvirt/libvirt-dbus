@@ -15,6 +15,7 @@ function install_buildenv() {
             flake8 \
             gcc \
             git \
+            libc6-dev \
             libglib2.0-dev \
             libvirt-dev \
             libvirt-glib-1.0-dev \

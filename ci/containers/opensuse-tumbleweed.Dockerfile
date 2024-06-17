@@ -14,6 +14,7 @@ RUN zypper dist-upgrade -y && \
            gcc \
            git \
            glib2-devel \
+           glibc-devel \
            glibc-locale \
            libvirt-devel \
            libvirt-glib-devel \

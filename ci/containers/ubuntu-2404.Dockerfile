@@ -4,7 +4,7 @@
 #
 # https://gitlab.com/libvirt/libvirt-ci
 
-FROM docker.io/library/debian:11-slim
+FROM docker.io/library/ubuntu:24.04
 
 RUN export DEBIAN_FRONTEND=noninteractive && \
     apt-get update && \
@@ -17,6 +17,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
                       flake8 \
                       gcc \
                       git \
+                      libc6-dev \
                       libglib2.0-dev \
                       libvirt-dev \
                       libvirt-glib-1.0-dev \
