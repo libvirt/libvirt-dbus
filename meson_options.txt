@@ -7,3 +7,4 @@ option('polkit_rules', type: 'string', value: 'polkit-1/rules.d', description: '
 option('system_user', type: 'string', value: 'libvirtdbus', description: 'username to run system instance as')
 option('unix_socket_group', type: 'string', value: 'libvirt', description: 'libvirt UNIX domain socket group')
 option('init_script', type: 'combo', choices: ['systemd', 'other', 'check'], value: 'check', description: 'Style of init script to install')
+option('sysusersdir', type: 'string', value: '', description: 'directory for sysusers files')

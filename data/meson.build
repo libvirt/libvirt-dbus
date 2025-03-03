@@ -12,5 +12,11 @@ install_data(
     install_dir: dbus_interfaces_dir,
 )
 
+install_data(
+    'libvirt-dbus.sysusers.conf',
+    install_dir: sysusersdir,
+    rename: [ 'libvirt-dbus.conf' ],
+)
+
 subdir('session')
 subdir('system')

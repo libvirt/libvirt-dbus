@@ -28,6 +28,11 @@ if init_script == 'systemd'
     systemd_system_unit_dir = systemd_base_unit_dir / 'system'
 endif
 
+sysusersdir = get_option('sysusersdir')
+if sysusersdir == ''
+    sysusersdir = prefix / 'lib' / 'sysusers.d'
+endif
+
 opt_dirs = [
     'dbus_interfaces',
     'dbus_services',
