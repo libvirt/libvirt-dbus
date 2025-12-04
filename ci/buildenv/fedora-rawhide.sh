@@ -17,7 +17,7 @@ function install_buildenv() {
         glibc-devel \
         glibc-langpack-en \
         libvirt-devel \
-        libvirt-gobject-devel \
+        libvirt-glib-devel \
         make \
         meson \
         ninja-build \

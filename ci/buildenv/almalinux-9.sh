@@ -6,6 +6,11 @@
 
 function install_buildenv() {
     dnf update -y
+    dnf install 'dnf-command(config-manager)' -y
+    dnf config-manager --set-enabled -y crb
+    dnf install -y epel-release
+    dnf install almalinux-release-devel -y
+    dnf config-manager --set-enabled -y devel
     dnf install -y \
         ca-certificates \
         ccache \
@@ -16,7 +21,7 @@ function install_buildenv() {
         glibc-devel \
         glibc-langpack-en \
         libvirt-devel \
-        libvirt-gobject-devel \
+        libvirt-glib-devel \
         make \
         meson \
         ninja-build \

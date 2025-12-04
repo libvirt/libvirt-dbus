@@ -9,7 +9,13 @@ gitlab:
 
 targets:
 
-  alpine-320: x86_64
+  almalinux-9: x86_64
+
+  almalinux-10: x86_64
+
+  alpine-322: x86_64
+
+  alpine-323: x86_64
 
   alpine-edge: x86_64
 
@@ -24,13 +30,26 @@ targets:
         template: .native_git_build_job
         suffix: -git
 
+  centos-stream-10:
+    projects:
+      - libvirt-dbus
+      - https://gitlab.com/libvirt/libvirt/-/raw/master/ci/lcitool/projects/libvirt+minimal.yml
+      - https://gitlab.com/libvirt/libvirt-glib/-/raw/master/ci/lcitool/projects/libvirt-glib.yml
+
+    jobs:
+      - arch: x86_64
+        template: .native_git_build_job
+        suffix: -git
+
   debian-12: x86_64
+
+  debian-13: x86_64
 
   debian-sid: x86_64
 
-  fedora-40: x86_64
+  fedora-42: x86_64
 
-  fedora-41: x86_64
+  fedora-43: x86_64
 
   fedora-rawhide: x86_64
 
