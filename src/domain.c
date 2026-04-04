@@ -11,7 +11,7 @@ virtDBusDomainConvertBoolArrayToGuestVcpumap(GVariantIter *iter)
     gboolean first = TRUE;
     guint intervalStart = 0;
     gboolean setPrev = 0;
-    g_autofree GString *ret = NULL;
+    GString *ret = NULL;
 
     ret = g_string_new("");
     for (guint i = 0; ; i++) {
@@ -36,7 +36,7 @@ virtDBusDomainConvertBoolArrayToGuestVcpumap(GVariantIter *iter)
             break;
     }
 
-    return ret->str;
+    return g_string_free(ret, FALSE);
 }
 
 struct _virtDBusDomainFSInfoList {
