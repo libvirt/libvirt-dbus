@@ -129,7 +129,6 @@ warn_flags = [
     '-Wimplicit-int',
     '-Wincompatible-pointer-types',
     '-Winit-self',
-    '-Winline',
     '-Wint-conversion',
     '-Wint-to-pointer-cast',
     '-Winvalid-memory-model',
