@@ -13,9 +13,9 @@ targets:
 
   almalinux-10: x86_64
 
-  alpine-322: x86_64
-
   alpine-323: x86_64
+
+  alpine-324: x86_64
 
   alpine-edge: x86_64
 
@@ -47,9 +47,9 @@ targets:
 
   debian-sid: x86_64
 
-  fedora-42: x86_64
-
   fedora-43: x86_64
+
+  fedora-44: x86_64
 
   fedora-rawhide: x86_64
 
@@ -65,6 +65,6 @@ targets:
         variables:
           RPM: skip
 
-  ubuntu-2204: x86_64
-
   ubuntu-2404: x86_64
+
+  ubuntu-2604: x86_64

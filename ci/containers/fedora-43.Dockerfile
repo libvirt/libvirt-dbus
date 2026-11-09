@@ -6,7 +6,7 @@
 
 FROM registry.fedoraproject.org/fedora:43
 
-RUN dnf install -y nosync && \
+RUN dnf --quiet install -y nosync && \
     printf '#!/bin/sh\n\
 if test -d /usr/lib64\n\
 then\n\
@@ -16,32 +16,32 @@ else\n\
 fi\n\
 exec "$@"\n' > /usr/bin/nosync && \
     chmod +x /usr/bin/nosync && \
-    nosync dnf update -y && \
-    nosync dnf install -y \
-               ca-certificates \
-               ccache \
-               dbus-daemon \
-               gcc \
-               git \
-               glib2-devel \
-               glibc-devel \
-               glibc-langpack-en \
-               libvirt-devel \
-               libvirt-glib-devel \
-               make \
-               meson \
-               ninja-build \
-               pkgconfig \
-               python3 \
-               python3-dbus \
-               python3-docutils \
-               python3-flake8 \
-               python3-gobject \
-               python3-pytest \
-               rpm-build \
-               systemd-rpm-macros && \
-    nosync dnf autoremove -y && \
-    nosync dnf clean all -y && \
+    nosync dnf --quiet update -y && \
+    nosync dnf --quiet install -y \
+                       ca-certificates \
+                       ccache \
+                       dbus-daemon \
+                       gcc \
+                       git \
+                       glib2-devel \
+                       glibc-devel \
+                       glibc-langpack-en \
+                       libvirt-devel \
+                       libvirt-glib-devel \
+                       make \
+                       meson \
+                       ninja-build \
+                       pkgconfig \
+                       python3 \
+                       python3-dbus \
+                       python3-docutils \
+                       python3-flake8 \
+                       python3-gobject \
+                       python3-pytest \
+                       rpm-build \
+                       systemd-rpm-macros && \
+    nosync dnf --quiet autoremove -y && \
+    nosync dnf --quiet clean all -y && \
     rm -f /usr/lib*/python3*/EXTERNALLY-MANAGED && \
     rpm -qa | sort > /packages.txt && \
     mkdir -p /usr/libexec/ccache-wrappers && \
